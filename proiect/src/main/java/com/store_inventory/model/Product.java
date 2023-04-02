@@ -12,12 +12,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Builder
 public class Product extends AbstractEntity {
     private String name;
     private UUID categoryId;
     private LocalDate expirationDate;
+    private float price;
     private ProductType productType;
     private HashMap<String, String> properties;
 }

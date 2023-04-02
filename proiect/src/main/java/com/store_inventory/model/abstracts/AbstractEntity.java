@@ -6,12 +6,15 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@ToString
 @EqualsAndHashCode
 public abstract class AbstractEntity {
     private UUID id;
     private LocalDate creationDate;
+
+    public AbstractEntity() {
+        id = UUID.randomUUID();
+        creationDate = LocalDate.now();
+    }
 }
