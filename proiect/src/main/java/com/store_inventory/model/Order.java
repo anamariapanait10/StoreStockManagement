@@ -2,9 +2,7 @@ package com.store_inventory.model;
 
 import com.store_inventory.model.abstracts.AbstractEntity;
 import com.store_inventory.model.abstracts.Transaction;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -14,9 +12,12 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 public class Order extends AbstractEntity {
     private Map<Product, Integer> orderedProducts;
     private Location orderLocation;
+    private Supplier supplier;
     private float totalPrice;
     private Transaction transaction;
 

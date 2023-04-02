@@ -17,4 +17,6 @@ public interface OrderService {
     void updateOrderById(UUID id, Order o);
     void removeOrderById(UUID id);
     void updateOrderTransaction(UUID orderId, Transaction t);
+
+    void printAllOrders();
 }

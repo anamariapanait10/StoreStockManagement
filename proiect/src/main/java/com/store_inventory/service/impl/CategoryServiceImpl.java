@@ -16,12 +16,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Optional<Category> getCategoryById(UUID id) {
-        return categoryList.stream().filter(c -> c.getId() == id).findFirst();
+        return categoryList.stream().filter(c -> c.getId() == id).findAny();
     }
 
     @Override
     public Optional<Category> getCategoryByName(String categoryName) {
-        return categoryList.stream().filter(c -> Objects.equals(c.getName(), categoryName)).findFirst();
+        return categoryList.stream().filter(c -> Objects.equals(c.getName(), categoryName)).findAny();
     }
 
     @Override
@@ -29,6 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryList.stream().filter(c -> c.getCategoryParent() != null && getCategoryById(c.getCategoryParent()).get().getName() == parentCategoryName).toList();
     }
 
+    public void sortByParentCategoryId(){
+        Collections.sort(categoryList);
+    }
     @Override
     public void addCategory(Category c) {
         categoryList.add(c);
@@ -47,12 +50,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void printAllCategories() {
-        Collections.sort(categoryList);
 
-        Map<UUID, String> cat = new HashMap<>(); // parentId, catName
-        for(Category c: categoryList){
-            cat.put(c.getCategoryParent(), c.getName());
-        }
+        sortByParentCategoryId();
 
         for(Category c: categoryList){
             if (c.getCategoryParent() == null) { // root category

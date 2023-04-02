@@ -2,14 +2,12 @@ package com.store_inventory.service.impl;
 
 import com.store_inventory.model.Category;
 import com.store_inventory.model.Location;
+import com.store_inventory.model.Product;
 import com.store_inventory.model.Stock;
 import com.store_inventory.model.enums.LocationType;
 import com.store_inventory.service.LocationService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LocationServiceImpl implements LocationService {
@@ -22,13 +20,19 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Optional<Location> getLocationById(UUID id) {
-        return locationList.stream().filter(l -> l.getId() == id).findFirst();
+        return locationList.stream().filter(l -> l.getId() == id).findAny();
+    }
+
+    @Override
+    public Optional<Location> getLocationByName(String locationName) {
+        return locationList.stream().filter(c -> Objects.equals(c.getName(), locationName)).findAny();
     }
 
     @Override
     public List<Location> getLocationsByType(LocationType lt) {
         return locationList.stream().filter(l -> l.getLocationType() == lt).collect(Collectors.toList());
     }
+
 
     @Override
     public void addLocation(Location l) {
@@ -65,4 +69,25 @@ public class LocationServiceImpl implements LocationService {
             System.out.println("Location with id " + locationId + " not found");
         }
     }
+
+    public Optional<Stock> getStockFromLocation(UUID locationId, UUID stockId){
+        Optional<Location> l = this.getLocationById(locationId);
+        if(l.isPresent()) {
+            Optional<Stock> stock = l.get().getLocationStocks().stream().filter(s -> s.getId() == stockId).findAny();
+            return stock;
+        } else {
+            System.out.println("Location with id " + locationId + " not found");
+            return null;
+        }
+    }
+
+    public void printAllStocks(){
+        for(Location l: locationList) {
+            System.out.println("Location " + l.getName() + "(" + l.getLocationType() + "):");
+            for(Stock s: l.getLocationStocks()){
+                System.out.println("-> " + s.getProduct().getName() + ": " + s.getProductQuantity());
+            }
+        }
+    }
+
 }

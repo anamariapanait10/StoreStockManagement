@@ -12,6 +12,8 @@ public class Main {
             Menu menu = Menu.getInstance();
 
             menu.showProducts();
+            menu.showLocations();
+            menu.showOrders();
 
             if ("exit".equals(scanner.next())) {
                 break;

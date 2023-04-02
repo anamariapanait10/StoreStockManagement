@@ -5,33 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3452ab5-21e0-48de-9544-06fec1b99829" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/CardTransaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/CashTransaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Location.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Stock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Supplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/abstracts/Transaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/enums/LocationType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/CategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/LocationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/CategoryServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/LocationServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/OrderServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/ProductServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/SupplierServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/abstracts/AbstractEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/abstracts/AbstractEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Stock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Stock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/LocationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/LocationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/LocationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/SupplierServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/impl/SupplierServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,20 +64,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Ana/Desktop/FMI/Year II/sem 2/Programare avansata pe obiecte/laborator/proiect",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ana/Desktop/FMI/Year II/sem 2/Programare avansata pe obiecte/laborator/proiect&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.store_inventory.service.impl" />
@@ -124,6 +115,7 @@
       <updated>1680363887254</updated>
       <workItem from="1680363888342" duration="10787000" />
       <workItem from="1680377637232" duration="10308000" />
+      <workItem from="1680410194940" duration="11718000" />
     </task>
     <servers />
   </component>
@@ -135,8 +127,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="1" />
+          <line>129</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

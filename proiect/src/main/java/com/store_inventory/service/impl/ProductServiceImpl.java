@@ -17,9 +17,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> getProductById(UUID id) {
-        return productList.stream().filter(p -> p.getId() == id).findFirst();
+        return productList.stream().filter(p -> p.getId() == id).findAny();
     }
 
+    @Override
+    public Optional<Product> getProductByName(String productName) {
+        return productList.stream().filter(c -> Objects.equals(c.getName(), productName)).findAny();
+    }
     @Override
     public void addProduct(Product p) {
         productList.add(p);
@@ -36,13 +40,19 @@ public class ProductServiceImpl implements ProductService {
         productList.removeIf(p -> p.getId() == id);
     }
 
+    public void sortByProductName(){
+        Collections.sort(productList);
+    }
     public void printAllProducts(){
+        int len = productList.size(), index = 0;
         for(Product p: productList) {
             System.out.println("Name: " + p.getName() + "\nPrice:" + p.getPrice() + "\nExpirationDate: " + p.getExpirationDate());
             for(Map.Entry<String, String> propr: p.getProperties().entrySet()){
                 System.out.println(propr.getKey() + ": " + propr.getValue());
             }
-            System.out.println("---------------------------------------------");
+            index++;
+            if(index != len)
+                System.out.println("---------------------------------------------");
         }
     }
 }

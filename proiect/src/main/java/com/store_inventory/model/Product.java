@@ -13,11 +13,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class Product extends AbstractEntity {
+public class Product extends AbstractEntity implements Comparable<Product>{
     private String name;
     private UUID categoryId;
     private LocalDate expirationDate;
     private float price;
     private ProductType productType;
     private HashMap<String, String> properties;
+
+    @Override
+    public int compareTo(Product c){
+        return this.getName().compareTo(c.getName());
+    }
 }

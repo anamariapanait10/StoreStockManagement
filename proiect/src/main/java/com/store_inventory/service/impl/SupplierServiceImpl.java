@@ -1,30 +1,36 @@
 package com.store_inventory.service.impl;
 
+import com.store_inventory.model.Location;
+import com.store_inventory.model.Product;
+import com.store_inventory.model.Stock;
 import com.store_inventory.model.Supplier;
 import com.store_inventory.service.SupplierService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SupplierServiceImpl implements SupplierService {
 
-    private List<Supplier> supplierList = new ArrayList<>();
+    private static Map<UUID, Supplier> supplierMap = new HashMap<>();
 
     @Override
-    public List<Supplier> getAllSuppliers() {
-        return supplierList;
+    public Map<UUID, Supplier> getAllSuppliers() {
+        return supplierMap;
     }
 
     @Override
     public Optional<Supplier> getSupplierById(UUID id) {
-        return supplierList.stream().filter(s -> s.getId() == id).findFirst();
+        return supplierMap.values().stream().filter(s -> s.getId() == id).findAny();
+    }
+
+    @Override
+    public Optional<Supplier> getSupplierByName(String supplierName) {
+        return supplierMap.values().stream().filter(s -> Objects.equals(s.getSupplierName(), supplierName)).findAny();
     }
 
     @Override
     public void addSupplier(Supplier s) {
-        supplierList.add(s);
+        supplierMap.put(s.getId(), s);
     }
 
     @Override
@@ -35,6 +41,12 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public void removeSupplierById(UUID id) {
-        supplierList.removeIf(c -> c.getId() == id);
+        supplierMap = supplierMap.entrySet().stream().filter(c -> !id.equals(c.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public void printAllSuppliers(){
+        for(Supplier s: supplierMap.values()) {
+            System.out.println("Supplier " + s.getSupplierName());
+        }
     }
 }
