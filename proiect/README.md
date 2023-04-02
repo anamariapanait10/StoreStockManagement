@@ -10,7 +10,7 @@
 - [x] To implement in the Java language an application based on those defined in the first point.
 - [x] The application will contain:
     - [x] simple classes with private / protected attributes and access methods
-    - [ ] at least 2 different collections capable of managing the previously defined objects (eg: List, Set, Map, etc.) of which at least one must be sorted
+    - [x] at least 2 different collections capable of managing the previously defined objects (eg: List, Set, Map, etc.) of which at least one must be sorted
     - [x] use inheritance to create additional classes and use them within collections
     - [x] at least one service class to expose system operations
     - [x] a Main class from which calls to services are made
@@ -39,18 +39,16 @@
      - Shop
 
  - Actions:
-   - add/delete/ product to the stock of a deposit/shop
-   - sort categories by parent category and names
-   - filter categories by parent category
+   - add/delete a product
+   - sort products by name
+   - add/delete a category for products
+   - sort categories by parent category ids
+   - filter categories by parent name
+   - add/delete a deposit/shop
    - update product stock of a deposit/shop
    - check if a product is in stock for a deposit/shop
-   - add/remove a product category
-   - order stock from a supplier to a deposit/shop
-   - cancel stock order from a supplier (if the transport didn't leave) 
-   - make a transaction for a stock order
-   - add transport for a stock
-   - update product placement in a deposit/shop
-   - add/remove a deposit/shop
-   - add/remove a supplier
+   - add/remove supplier
+   - order from a supplier to a deposit/shop
+   - make a transaction for an order
 
 ## Second stage requirements:

@@ -48,9 +48,7 @@
    - update product stock of a deposit/shop
    - check if a product is in stock for a deposit/shop
    - add/remove supplier
-  
-   - order stock from a supplier to a deposit/shop
-   - cancel stock order from a supplier (if the transport didn't leave) 
-   - make a transaction for a stock order
+   - order from a supplier to a deposit/shop
+   - make a transaction for an order
 
 ## Second stage requirements:

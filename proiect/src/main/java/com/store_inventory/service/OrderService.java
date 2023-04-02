@@ -19,4 +19,5 @@ public interface OrderService {
     void updateOrderTransaction(UUID orderId, Transaction t);
 
     void printAllOrders();
+    void printAllTransactions();
 }

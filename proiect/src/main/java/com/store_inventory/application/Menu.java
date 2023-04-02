@@ -1,6 +1,7 @@
 package com.store_inventory.application;
 
 import com.store_inventory.model.*;
+import com.store_inventory.model.abstracts.Transaction;
 import com.store_inventory.model.enums.LocationType;
 import com.store_inventory.model.enums.ProductType;
 import com.store_inventory.service.*;
@@ -142,23 +143,36 @@ public class Menu {
         Optional<Product> potato = productService.getProductByName("Potato");
         Optional<Product> apple = productService.getProductByName("Apple");
         Optional<Product> banana = productService.getProductByName("Banana");
-        orderService.addOrder(Order.builder().supplier(s1.get()).orderLocation(l1.get()).totalPrice(40).orderedProducts(new HashMap<Product, Integer>(){{
+
+        Order o1 = Order.builder().supplier(s1.get()).orderLocation(l1.get()).totalPrice(40).orderedProducts(new HashMap<Product, Integer>(){{
             put(pear.get(), 10);
             put(potato.get(), 50);
-        }}).build());
-
-        orderService.addOrder(Order.builder().supplier(s2.get()).orderLocation(l2.get()).totalPrice(100).orderedProducts(new HashMap<Product, Integer>(){{
+        }}).build();
+        Order o2 = Order.builder().supplier(s2.get()).orderLocation(l2.get()).totalPrice(100).orderedProducts(new HashMap<Product, Integer>(){{
             put(apple.get(), 100);
             put(banana.get(), 50);
             put(potato.get(), 50);
-        }}).build());
-
-        orderService.addOrder(Order.builder().supplier(s3.get()).orderLocation(l3.get()).totalPrice(80).orderedProducts(new HashMap<Product, Integer>(){{
+        }}).build();
+        Order o3 = Order.builder().supplier(s3.get()).orderLocation(l3.get()).totalPrice(80).orderedProducts(new HashMap<Product, Integer>(){{
             put(pear.get(), 20);
             put(potato.get(), 100);
-        }}).build());
+        }}).build();
+
+        Transaction t1 = CashTransaction.builder().amount(40.f).build();
+        Transaction t2 = CardTransaction.builder().amount(100.f).cardNumber("1234567890123456").cardExpirationDate(LocalDate.now().plusDays(10)).cardHolderName("Person 1").build();
+        Transaction t3 = CardTransaction.builder().amount(80.f).cardNumber("1234567890123456").cardExpirationDate(LocalDate.now().plusDays(20)).cardHolderName("Person 2").build();
+
+        orderService.addOrder(o1);
+        orderService.updateOrderTransaction(o1.getId(), t1);
+        orderService.addOrder(o2);
+        orderService.updateOrderTransaction(o2.getId(), t2);
+        orderService.addOrder(o3);
+        orderService.updateOrderTransaction(o3.getId(), t3);
 
         orderService.printAllOrders();
+
+        System.out.println("-------------------- Transactions -----------------------");
+        orderService.printAllTransactions();
     }
 
 }

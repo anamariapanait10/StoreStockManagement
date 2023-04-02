@@ -1,6 +1,6 @@
 package com.store_inventory.service.impl;
 
-import com.store_inventory.model.Category;
+import com.store_inventory.model.CashTransaction;
 import com.store_inventory.model.Order;
 import com.store_inventory.model.Product;
 import com.store_inventory.model.abstracts.Transaction;
@@ -55,4 +55,16 @@ public class OrderServiceImpl implements OrderService {
             }
         }
     }
+
+    public void printAllTransactions(){
+        for(Order o: orderList) {
+            System.out.print("Transaction with the total amout " + o.getTransaction().getAmount() + " was paid ");
+            if(o.getTransaction() instanceof CashTransaction){
+                System.out.println("with cash");
+            } else {
+                System.out.println("by card");
+            }
+        }
+    }
+
 }
