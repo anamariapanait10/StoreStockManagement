@@ -1,16 +1,16 @@
-package com.store_inventory.service.impl;
+package com.store_inventory.service;
 
-import com.store_inventory.model.Category;
-import com.store_inventory.model.Location;
-import com.store_inventory.model.Product;
-import com.store_inventory.model.Stock;
+import com.store_inventory.exceptions.LocationNotFound;
+import com.store_inventory.exceptions.StockNotFound;
+import com.store_inventory.exceptions.SupplierNotFound;
+import com.store_inventory.model.*;
 import com.store_inventory.model.enums.LocationType;
 import com.store_inventory.service.LocationService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LocationServiceImpl implements LocationService {
+public final class LocationServiceImpl implements LocationService {
     private static List<Location> locationList = new ArrayList<>();
 
     @Override
@@ -24,15 +24,18 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<Location> getLocationByName(String locationName) {
-        return locationList.stream().filter(c -> Objects.equals(c.getName(), locationName)).findAny();
+    public Optional<Location> getLocationByName(String locationName) throws LocationNotFound {
+        Optional<Location> loc = locationList.stream().filter(l -> Objects.equals(l.getName(), locationName)).findAny();
+        if (!loc.isPresent()){
+            throw new LocationNotFound();
+        }
+        return loc;
     }
 
     @Override
     public List<Location> getLocationsByType(LocationType lt) {
         return locationList.stream().filter(l -> l.getLocationType() == lt).collect(Collectors.toList());
     }
-
 
     @Override
     public void addLocation(Location l) {
@@ -70,10 +73,13 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    public Optional<Stock> getStockFromLocation(UUID locationId, UUID stockId){
+    public Optional<Stock> getStockFromLocation(UUID locationId, UUID stockId) throws StockNotFound{
         Optional<Location> l = this.getLocationById(locationId);
         if(l.isPresent()) {
             Optional<Stock> stock = l.get().getLocationStocks().stream().filter(s -> s.getId() == stockId).findAny();
+            if(!stock.isPresent()){
+                throw new StockNotFound();
+            }
             return stock;
         } else {
             System.out.println("Location with id " + locationId + " not found");

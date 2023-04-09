@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OrderService {
+public sealed interface OrderService permits OrderServiceImpl{
 
     List<Order> getAllOrders();
     Optional<Order> getOrderById(UUID id);

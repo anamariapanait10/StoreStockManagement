@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface SupplierService {
+public sealed interface SupplierService permits SupplierServiceImpl{
     Map<UUID, Supplier> getAllSuppliers();
     Optional<Supplier> getSupplierById(UUID id);
 

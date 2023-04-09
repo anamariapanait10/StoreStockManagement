@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CategoryService {
+public sealed interface CategoryService permits CategoryServiceImpl {
 
     List<Category> getAllCategories();
     Optional<Category> getCategoryById(UUID id);

@@ -1,4 +1,4 @@
-package com.store_inventory.service.impl;
+package com.store_inventory.service;
 
 import com.store_inventory.model.CashTransaction;
 import com.store_inventory.model.Order;
@@ -8,7 +8,7 @@ import com.store_inventory.service.OrderService;
 
 import java.util.*;
 
-public class OrderServiceImpl implements OrderService {
+public final class OrderServiceImpl implements OrderService {
     private static List<Order> orderList = new ArrayList<>();
 
     @Override

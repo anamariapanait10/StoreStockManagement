@@ -1,27 +1,30 @@
 package com.store_inventory.application;
 
+import com.store_inventory.exceptions.CategoryNotFound;
+import com.store_inventory.exceptions.LocationNotFound;
+import com.store_inventory.exceptions.ProductNotFound;
+import com.store_inventory.exceptions.StockNotFound;
 import com.store_inventory.model.*;
 import com.store_inventory.model.abstracts.Transaction;
 import com.store_inventory.model.enums.LocationType;
 import com.store_inventory.model.enums.ProductType;
 import com.store_inventory.service.*;
-import com.store_inventory.service.impl.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Menu {
-
+    private static Logger logger = Logger.getLogger(Menu.class.getName());;
     private static Menu INSTANCE;
     private final ProductService productService = new ProductServiceImpl();
     private final CategoryService categoryService = new CategoryServiceImpl();
     private final LocationService locationService = new LocationServiceImpl();
-
     private final SupplierService supplierService = new SupplierServiceImpl();
     private final OrderService orderService = new OrderServiceImpl();
-
 
     public static Menu getInstance() {
         return (INSTANCE == null ? new Menu() : INSTANCE);
@@ -39,13 +42,23 @@ public class Menu {
         categoryService.addCategory(new Category("Tables", furnitureId));
         categoryService.addCategory(new Category("Wardrobe", furnitureId));
 
-
         categoryService.printAllCategories();
     }
     public void showProducts() {
         showCategories();
-        UUID fructeId = categoryService.getCategoryByName("Fruits").orElseThrow().getId();
-        UUID legumeId = categoryService.getCategoryByName("Vegetables").orElseThrow().getId();
+        UUID fructeId, legumeId;
+        try {
+            fructeId = categoryService.getCategoryByName("Fruits").get().getId();
+        } catch (CategoryNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            legumeId = categoryService.getCategoryByName("Vegetables").orElseThrow().getId();
+        } catch (CategoryNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
 
         System.out.println("-------------------- Products -----------------------");
         productService.addProduct(Product.builder().name("Apple").categoryId(fructeId).expirationDate(LocalDate.now().plusDays(2))
@@ -83,16 +96,37 @@ public class Menu {
 
     public void showLocations() {
         System.out.println("-------------------- Locations -----------------------");
-        Product potato = productService.getProductByName("Potato").get();
+        Product potato, apple, pear, banana;
+        try {
+            potato = productService.getProductByName("Potato").get();
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
         Stock s1 = Stock.builder().product(potato).productQuantity(5).build();
         Stock s2 = Stock.builder().product(potato).productQuantity(2).build();
-        Product apple = productService.getProductByName("Apple").get();
+        try {
+            apple = productService.getProductByName("Apple").get();
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
         Stock s3 = Stock.builder().product(apple).productQuantity(25).build();
         Stock s4 =Stock.builder().product(apple).productQuantity(50).build();
-        Product pear = productService.getProductByName("Pear").get();
+        try {
+            pear = productService.getProductByName("Pear").get();
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
         Stock s5 = Stock.builder().product(pear).productQuantity(100).build();
         Stock s6 = Stock.builder().product(pear).productQuantity(500).build();
-        Product banana = productService.getProductByName("Banana").get();
+        try {
+            banana = productService.getProductByName("Banana").get();
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
         Stock s7 = Stock.builder().product(banana).productQuantity(200).build();
         Stock s8 = Stock.builder().product(banana).productQuantity(250).build();
 
@@ -100,9 +134,25 @@ public class Menu {
         locationService.addLocation(Location.builder().name("Target").address("Mayflower Street").locationType(LocationType.SHOP).maxStockCapacity(500).build());
         locationService.addLocation(Location.builder().name("Mobexpert").address("Wakley Stree").locationType(LocationType.DEPOSIT).maxStockCapacity(2500).build());
 
-        UUID emag = locationService.getLocationByName("Emag").get().getId();
-        UUID target = locationService.getLocationByName("Target").get().getId();
-        UUID mobexpert = locationService.getLocationByName("Mobexpert").get().getId();
+        UUID emag, target, mobexpert;
+        try {
+            emag = locationService.getLocationByName("Emag").get().getId();
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            target = locationService.getLocationByName("Target").get().getId();
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            mobexpert = locationService.getLocationByName("Mobexpert").get().getId();
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
         locationService.addStocksToLocation(emag, s1);
         locationService.addStocksToLocation(emag, s3);
         locationService.addStocksToLocation(emag, s5);
@@ -115,7 +165,13 @@ public class Menu {
         locationService.printAllStocks();
 
         System.out.println();
-        Optional<Stock> s = locationService.getStockFromLocation(emag, s1.getId());
+        Optional<Stock> s;
+        try {
+            s = locationService.getStockFromLocation(emag, s1.getId());
+        } catch (StockNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
         System.out.println("Emag has potatos in stock:");
         System.out.println(s.get().getProduct().getName() + ": " + s.get().getProductQuantity());
     }
@@ -131,18 +187,71 @@ public class Menu {
         showSuppliers();
         System.out.println("-------------------- Orders -----------------------");
 
-        Optional<Supplier> s1 = supplierService.getSupplierByName("The Local Supply Depot");
-        Optional<Supplier> s2 = supplierService.getSupplierByName("The Supply Corner");
-        Optional<Supplier> s3 = supplierService.getSupplierByName("Totally Stocked");
+        Optional<Supplier> s1, s2, s3;
+        try {
+            s1 = supplierService.getSupplierByName("The Local Supply Depot");
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            s2 = supplierService.getSupplierByName("The Supply Corner");
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            s3 = supplierService.getSupplierByName("Totally Stocked");
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
 
-        Optional<Location> l1 = locationService.getLocationByName("Emag");
-        Optional<Location> l2 = locationService.getLocationByName("Target");
-        Optional<Location> l3 = locationService.getLocationByName("Mobexpert");
+        Optional<Location> l1, l2, l3;
+        try {
+            l1 = locationService.getLocationByName("Emag");
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            l2 = locationService.getLocationByName("Target");
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            l3 = locationService.getLocationByName("Mobexpert");
+        } catch (LocationNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        Optional<Product> pear, potato, apple, banana;
 
-        Optional<Product> pear = productService.getProductByName("Pear");
-        Optional<Product> potato = productService.getProductByName("Potato");
-        Optional<Product> apple = productService.getProductByName("Apple");
-        Optional<Product> banana = productService.getProductByName("Banana");
+        try {
+            potato = productService.getProductByName("Potato");
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            apple = productService.getProductByName("Apple");
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            pear = productService.getProductByName("Pear");
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+        try {
+            banana = productService.getProductByName("Banana");
+        } catch (ProductNotFound e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        }
 
         Order o1 = Order.builder().supplier(s1.get()).orderLocation(l1.get()).totalPrice(40).orderedProducts(new HashMap<Product, Integer>(){{
             put(pear.get(), 10);

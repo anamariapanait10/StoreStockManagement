@@ -1,15 +1,14 @@
-package com.store_inventory.service.impl;
+package com.store_inventory.service;
 
-import com.store_inventory.model.Location;
-import com.store_inventory.model.Product;
-import com.store_inventory.model.Stock;
-import com.store_inventory.model.Supplier;
+import com.store_inventory.exceptions.CategoryNotFound;
+import com.store_inventory.exceptions.SupplierNotFound;
+import com.store_inventory.model.*;
 import com.store_inventory.service.SupplierService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SupplierServiceImpl implements SupplierService {
+public final class SupplierServiceImpl implements SupplierService {
 
     private static Map<UUID, Supplier> supplierMap = new HashMap<>();
 
@@ -24,8 +23,12 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Optional<Supplier> getSupplierByName(String supplierName) {
-        return supplierMap.values().stream().filter(s -> Objects.equals(s.getSupplierName(), supplierName)).findAny();
+    public Optional<Supplier> getSupplierByName(String supplierName) throws SupplierNotFound {
+        Optional<Supplier> sup = supplierMap.values().stream().filter(s -> Objects.equals(s.getSupplierName(), supplierName)).findAny();
+        if (!sup.isPresent()){
+            throw new SupplierNotFound();
+        }
+        return sup;
     }
 
     @Override

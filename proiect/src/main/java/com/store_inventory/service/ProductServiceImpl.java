@@ -1,12 +1,13 @@
-package com.store_inventory.service.impl;
+package com.store_inventory.service;
 
+import com.store_inventory.exceptions.ProductNotFound;
 import com.store_inventory.model.Category;
 import com.store_inventory.model.Product;
 import com.store_inventory.service.ProductService;
 
 import java.util.*;
 
-public class ProductServiceImpl implements ProductService {
+public final class ProductServiceImpl implements ProductService {
 
     private static List<Product> productList = new ArrayList<>();
 
@@ -21,8 +22,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductByName(String productName) {
-        return productList.stream().filter(c -> Objects.equals(c.getName(), productName)).findAny();
+    public Optional<Product> getProductByName(String productName) throws ProductNotFound {
+        Optional<Product> p = productList.stream().filter(c -> Objects.equals(c.getName(), productName)).findAny();
+        if (!p.isPresent()){
+            throw new ProductNotFound();
+        }
+        return p;
     }
     @Override
     public void addProduct(Product p) {

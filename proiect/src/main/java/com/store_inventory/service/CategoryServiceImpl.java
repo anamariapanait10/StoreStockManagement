@@ -1,11 +1,14 @@
-package com.store_inventory.service.impl;
+package com.store_inventory.service;
 
+import com.store_inventory.exceptions.CategoryNotFound;
+import com.store_inventory.exceptions.ProductNotFound;
 import com.store_inventory.model.Category;
+import com.store_inventory.model.Product;
 import com.store_inventory.service.CategoryService;
 
 import java.util.*;
 
-public class CategoryServiceImpl implements CategoryService {
+public final class CategoryServiceImpl implements CategoryService {
 
     private static List<Category> categoryList = new ArrayList<>();
 
@@ -20,8 +23,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> getCategoryByName(String categoryName) {
-        return categoryList.stream().filter(c -> Objects.equals(c.getName(), categoryName)).findAny();
+    public Optional<Category> getCategoryByName(String categoryName) throws CategoryNotFound {
+        Optional<Category> cat = categoryList.stream().filter(c -> Objects.equals(c.getName(), categoryName)).findAny();
+        if (!cat.isPresent()){
+            throw new CategoryNotFound(categoryName);
+        }
+        return cat;
     }
 
     @Override

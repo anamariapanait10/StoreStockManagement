@@ -1,7 +1,9 @@
 package com.store_inventory;
 
 import com.store_inventory.application.Menu;
+import com.store_inventory.model.Location;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {

@@ -1,13 +1,12 @@
 package com.store_inventory.service;
 
-import com.store_inventory.model.Category;
 import com.store_inventory.model.Product;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ProductService {
+public sealed interface ProductService permits ProductServiceImpl{
     List<Product> getAllProducts();
     Optional<Product> getProductById(UUID id);
     Optional<Product> getProductByName(String productName);

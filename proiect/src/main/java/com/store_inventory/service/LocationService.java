@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface LocationService {
+public sealed interface LocationService permits LocationServiceImpl {
     List<Location> getAllLocations();
     Optional<Location> getLocationById(UUID id);
     Optional<Location> getLocationByName(String locationName);
