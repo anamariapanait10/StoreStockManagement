@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3452ab5-21e0-48de-9544-06fec1b99829" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/config/DatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/config/DatabaseConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/config/DatabaseConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/threads/ProductExpirationThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/threads/ProductExpirationThread.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +126,7 @@
       <workItem from="1685124156035" duration="17242000" />
       <workItem from="1685164152596" duration="905000" />
       <workItem from="1685166049970" duration="14408000" />
-      <workItem from="1685181020361" duration="3259000" />
+      <workItem from="1685181020361" duration="5745000" />
     </task>
     <servers />
   </component>

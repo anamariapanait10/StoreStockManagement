@@ -9,12 +9,12 @@ import com.store_inventory.model.abstracts.Transaction;
 import com.store_inventory.model.enums.LocationType;
 import com.store_inventory.model.enums.ProductType;
 import com.store_inventory.service.*;
+import com.store_inventory.threads.ProductExpirationThread;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -291,5 +291,96 @@ public class Menu {
         System.out.println("-------------------- Transactions -----------------------");
         orderService.printAllTransactions();
     }
+
+    public void demoOnThreads() {
+        System.out.println("-------------------- Demo on threads -----------------------");
+        System.out.println("------- Demo on getting a list of products that are not expired ---------\n");
+
+        ProductExpirationThread products = new  ProductExpirationThread(productService.getAllProducts());
+        Thread thread = new Thread(products);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            LogServiceImpl.getInstance().log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+//    public void demoOnIterator() {
+//        System.out.println("-------------------- Demo on iterator -----------------------");
+//        System.out.println("------- Demo on retrieving the category names with the highest number of subcategories ---------\n");
+//
+//        List<Category> categories = categoryService.get
+//
+//        if (products.isPresent()) {
+//            Video video = products.get();
+//            System.out.println(video.getTitle() + " ---- " + video.getDuration());
+//        }
+//
+//        System.out.println("-----Demo on iterator, and deleting objects from database-----");
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//
+//        System.out.println("\n  Before deleting:");
+//        videoService.getAllItems().forEach(vid -> System.out.println("Video: " + vid.getTitle() + " ---- " + vid.getDuration().format(formatter)));
+//
+//        Iterator<Video> videoIterator = videoService.getAllItems().iterator();
+//        while (videoIterator.hasNext()) {
+//            Video vid = videoIterator.next();
+//
+//            if (vid.getDuration().isAfter(LocalTime.parse("00:30:00", DateTimeFormatter.ISO_TIME))) {
+//                videoService.removeById(vid.getId());
+//                videoIterator.remove();
+//            }
+//        }
+//
+//        System.out.println("\n  After deleting:");
+//        videoService.getAllItems().forEach(vid -> System.out.println("Video: " + vid.getTitle() + " ---- " + vid.getDuration().format(formatter)));
+//    }
+//
+//    public void demoOnLoggingErrors() {
+//        studentService.getById(UUID.randomUUID());
+//
+//        documentService.getById(UUID.randomUUID());
+//
+//        Teacher teacher = Teacher.builder()
+//                .id(UUID.randomUUID())
+//                .firstName("Ioneel")
+//                .lastName("Ioneescu")
+//                .email("ioneel.ionescuuu@gmail")
+//                .password("TesteazaLoggerul")
+//                .degree("masterand")
+//                .build();
+//
+//        userService.addOnlyOne(teacher);
+//
+//        teacher = Teacher.builder()
+//                .id(UUID.randomUUID())
+//                .firstName("Ionel")
+//                .lastName("Ionescu")
+//                .email("ionel.ionescuuu@gmail")
+//                .password("TesteazaLoggerul")
+//                .degree("doctorand")
+//                .build();
+//
+//        teacherService.addOnlyOne(teacher);
+//
+//        Student student = Student.builder()
+//                .id(UUID.randomUUID())
+//                .firstName("Mariaana")
+//                .lastName("MariaaairaM")
+//                .email("mariiana@gmail")
+//                .password("pal")
+//                .build();
+//
+//        studentService.addOnlyOne(student);
+//    }
+//    public void demo() {
+//        System.out.println("------------- Demo on usage of database -------------");
+//
+//        List<Product> productList = productService.getAllProductsByCategoryId(UUID.fromString("ec653158-5fba-4f08-beef-fff7e82e8aef"));
+//
+//        productList.forEach(System.out::println);
+//    }
 
 }

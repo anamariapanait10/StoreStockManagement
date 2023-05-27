@@ -8,6 +8,7 @@ import com.store_inventory.model.Product;
 import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -122,6 +123,23 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void addAllFromGivenList(List<Product> productList) {
         productList.forEach(this::addNewObject);
+    }
+
+    @Override
+    public List<Product> getAllProductsByCategoryId(UUID categoryId) {
+        String sqlStatement = "SELECT * FROM product p LEFT JOIN category c ON p.category_id = c.id WHERE c.id = ?";
+
+        try(Connection connection = DatabaseConfiguration.getDbConn();
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement)) {
+
+            preparedStatement.setString(1, categoryId.toString());
+
+            return productMapper.mapToProductList(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            LogServiceImpl.getInstance().log(Level.SEVERE, e.getMessage());
+        }
+
+        return new ArrayList<>();
     }
 
 }

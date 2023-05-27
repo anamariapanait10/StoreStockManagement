@@ -26,6 +26,10 @@ public class Main {
             menu.showLocations();
             menu.showOrders();
 
+            // menu.demoOnThreads();
+            // menu.demoOnIterator();
+//            menu.demoOnLoggingErrors();
+//            menu.demo();
             if ("exit".equals(scanner.next())) {
                 break;
             }

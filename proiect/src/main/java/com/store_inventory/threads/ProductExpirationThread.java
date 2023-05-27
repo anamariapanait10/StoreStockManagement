@@ -16,6 +16,8 @@ public class ProductExpirationThread implements Runnable {
         for(int i = 0; i < products.size(); i++){
             if(products.get(i).getExpirationDate().isBefore(LocalDate.now())){
                 products.get(i).setExpirationStatus("Expired");
+            } else {
+                products.get(i).setExpirationStatus("Not expired");
             }
         }
     }
