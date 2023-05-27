@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3452ab5-21e0-48de-9544-06fec1b99829" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/EssentialProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logger.csv" beforeDir="false" afterPath="$PROJECT_DIR$/logger.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/gateways/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/gateways/Requests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/EssentialProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/EssentialProductMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/ProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/ProductMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/threads/ProductExpirationThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/threads/ProductExpirationThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/gateways/Requests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/gateways/Requests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/mapper/ProductMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/mapper/ProductMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/model/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/model/Product$ProductBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/model/Product$ProductBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/model/Product$ProductBuilderImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/model/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/threads/ProductExpirationThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/threads/ProductExpirationThread.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +122,7 @@
       <workItem from="1685124156035" duration="17242000" />
       <workItem from="1685164152596" duration="905000" />
       <workItem from="1685166049970" duration="14408000" />
-      <workItem from="1685181020361" duration="34103000" />
+      <workItem from="1685181020361" duration="36993000" />
     </task>
     <servers />
   </component>
@@ -166,9 +149,9 @@
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/store_inventory/service/OrderServiceImpl.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="17" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java</url>
+          <line>320</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

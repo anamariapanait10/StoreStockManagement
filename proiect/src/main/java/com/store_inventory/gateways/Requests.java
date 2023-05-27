@@ -34,14 +34,14 @@ public class Requests {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
             List<EssentialProduct> essentialProducts = essentialProductMapper.essentialProductListMapper(objectMapper, httpResponse.body());
-            writeBooksToCSV(essentialProducts);
+            writeProductsToCSV(essentialProducts);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void writeBooksToCSV(List<EssentialProduct> books) {
+    private void writeProductsToCSV(List<EssentialProduct> books) {
         List<String[]> stringList = new ArrayList<>();
         stringList.add(new String[] {"Title" , "Authors", "Publisher", "Published Date"});
 

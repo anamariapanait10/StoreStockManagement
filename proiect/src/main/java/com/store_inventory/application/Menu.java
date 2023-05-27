@@ -1,9 +1,6 @@
 package com.store_inventory.application;
 
-import com.store_inventory.exceptions.CategoryNotFound;
-import com.store_inventory.exceptions.LocationNotFound;
-import com.store_inventory.exceptions.ProductNotFound;
-import com.store_inventory.exceptions.StockNotFound;
+import com.store_inventory.exceptions.*;
 import com.store_inventory.gateways.Requests;
 import com.store_inventory.model.*;
 import com.store_inventory.model.abstracts.Transaction;
@@ -319,21 +316,19 @@ public class Menu {
 
     public void demoOnIterator() {
         System.out.println("-------------------- Demo on iterator -----------------------");
-        System.out.println("------- Demo on retrieving the category with the longest name ---------\n");
+        System.out.println("------- Demo on retrieving the category with the longest name ---------");
 
         Optional<Category> optionalCategory = categoryService.getCatgoryWithLogestName();
 
         if (optionalCategory.isPresent()) {
             Category category = optionalCategory.get();
-            System.out.println("Category name: " + category.getName() + " has the longest name");
+            System.out.println(" -> Category name: " + category.getName() + " has the longest name");
         }
 
-        System.out.println("---------- Demo on iterator, and deleting objects from database ---------");
+        System.out.println("\n---------- Demo on iterator, and deleting objects from database ---------");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-        System.out.println("\n  Before deleting:");
-        productService.getAllProducts().forEach(p -> System.out.println("Product: " + p.getName() + ", Expiration date: " + p.getExpirationDate().format(formatter)));
+        System.out.println("Before deleting the expired products:");
+        productService.getAllProducts().forEach(p -> System.out.println("\tProduct: " + p.getName() + ", Expiration date: " + p.getExpirationDate()));
 
         Iterator<Product> prodIterator = productService.getAllProducts().iterator();
         while (prodIterator.hasNext()) {
@@ -345,28 +340,23 @@ public class Menu {
             }
         }
 
-        System.out.println("\n  After deleting:");
-        productService.getAllProducts().forEach(p -> System.out.println("Product: " + p.getName() + ", Expiration date: " + p.getExpirationDate().format(formatter)));
+        System.out.println("After deleting the expired products:");
+        productService.getAllProducts().forEach(p -> System.out.println("\tProduct: " + p.getName() + ", Expiration date: " + p.getExpirationDate()));
     }
 
     public void demoOnLoggingErrors() {
-
-        productService.getProductById(UUID.randomUUID());
-        categoryService.getCategoryById(UUID.randomUUID());
-
+        try {
+            productService.getProductById(UUID.randomUUID());
+            categoryService.getCategoryById(UUID.randomUUID());
+        } catch (Exception e){
+            System.out.println("Product not found. Check logs for more details.");
+        }
         Category cat = Category.builder()
                 .id(UUID.randomUUID())
                 .name("Pear")
                 .build();
         categoryService.addCategory(cat);
 
-    }
-    public void demo() {
-        System.out.println("------------- Demo on usage of database -------------");
-
-        List<Product> productList = productService.getAllProductsByCategoryId(UUID.fromString("ec653158-5fba-4f08-beef-fff7e82e8aef"));
-
-        productList.forEach(System.out::println);
     }
 
 }

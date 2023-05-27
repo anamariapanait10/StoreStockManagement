@@ -28,9 +28,9 @@ public class Main {
 
             menu.demoOnThreads();
             menu.demoOnGateway();
-//            menu.demoOnIterator();
-//            menu.demoOnLoggingErrors();
-//            menu.demo();
+            menu.demoOnIterator();
+            menu.demoOnLoggingErrors();
+
             if ("exit".equals(scanner.next())) {
                 break;
             }
