@@ -52,3 +52,16 @@
    - make a transaction for an order
 
 ## Second stage requirements:
+In this stage I extended the first stage by implementing persistence using a relational database and JDBC. I used Docker to run the database in a container with a PostgreSQL server.
+
+I created services that expose create, read, update and delete operations for all defined classes.
+
+Generic singleton services were used for writing and reading from the database (Repository).
+
+A service was created to write to a CSV file every time one of the actions available is executed (File structure: Timestamp,  Importance, Name, Action).
+
+A logger was used to log all SQL exceptions and other errors.
+
+A ticker was implemented using a thread that checks every second if a product has expired and if so it sets the status from "Not expired" to "Expired".
+
+I added a Requests class in gateway package in which I retrieved information about products that are not expired. I added a mapper for this products that uses Jackson Library to map the JSON retrieved from the API into NotExpiredProducts. Inside the Requests class I use HttpClient to connect to the api and get the data from there.
