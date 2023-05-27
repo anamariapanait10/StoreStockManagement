@@ -20,7 +20,7 @@ public class Product extends AbstractEntity implements Comparable<Product>{
     private float price;
     private ProductType productType;
     private HashMap<String, String> properties;
-
+    private String expirationStatus;
     @Override
     public int compareTo(Product c){
         return this.getName().compareTo(c.getName());
