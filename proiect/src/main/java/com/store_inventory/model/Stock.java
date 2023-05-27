@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
 public class Stock extends AbstractEntity {
-     private Product product;
+     private UUID productId;
      private int productQuantity;
 
 }

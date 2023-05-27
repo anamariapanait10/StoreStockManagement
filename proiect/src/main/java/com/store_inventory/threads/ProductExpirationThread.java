@@ -2,6 +2,7 @@ package com.store_inventory.threads;
 
 import com.store_inventory.model.Product;
 
+import java.time.LocalDate;
 import java.util.List;
 public class ProductExpirationThread implements Runnable {
     private List<Product> products;
@@ -13,8 +14,8 @@ public class ProductExpirationThread implements Runnable {
     @Override
     public void run(){
         for(int i = 0; i < products.size(); i++){
-            if(products[i].getExpirationDate() <= new Date()){
-                products[i].setExpirationStatus("Expired");
+            if(products.get(i).getExpirationDate().isBefore(LocalDate.now())){
+                products.get(i).setExpirationStatus("Expired");
             }
         }
     }

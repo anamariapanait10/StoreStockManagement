@@ -10,6 +10,15 @@ import java.util.*;
 
 public final class OrderServiceImpl implements OrderService {
     private static List<Order> orderList = new ArrayList<>();
+    private static LocationService locationService;
+    private static SupplierService supplierService;
+    private static TransactionService transactionService;
+
+    public OrderServiceImpl(LocationService ls, SupplierService ss, TransactionService ts) {
+        locationService = ls;
+        supplierService = ss;
+        transactionService = ts;
+    }
 
     @Override
     public List<Order> getAllOrders() {
@@ -41,7 +50,7 @@ public final class OrderServiceImpl implements OrderService {
     public void updateOrderTransaction(UUID orderId, Transaction t) {
         Optional<Order> o = getOrderById(orderId);
         if (o.isPresent()) {
-            o.get().setTransaction(t);
+            o.get().setTransactionId(t.getId());
         } else {
             System.out.println("Order with id " + orderId + " not found");
         }
@@ -49,7 +58,7 @@ public final class OrderServiceImpl implements OrderService {
 
     public void printAllOrders(){
         for(Order o: orderList) {
-            System.out.println("Order made by " + o.getOrderLocation().getName() +  " from supplier " + o.getSupplier().getSupplierName() + " with a total price of " + o.getTotalPrice() + ":");
+            System.out.println("Order made by " + locationService.getLocationById(o.getOrderLocationId()).get().getName() +  " from supplier " + supplierService.getSupplierById(o.getSupplierId()).get().getSupplierName() + " with a total price of " + o.getTotalPrice() + ":");
             for(Map.Entry<Product, Integer> ord: o.getOrderedProducts().entrySet()){
                 System.out.println("-> " + ord.getKey().getName() + ": " + ord.getValue());
             }
@@ -58,8 +67,9 @@ public final class OrderServiceImpl implements OrderService {
 
     public void printAllTransactions(){
         for(Order o: orderList) {
-            System.out.print("Transaction with the total amout " + o.getTransaction().getAmount() + " was paid ");
-            if(o.getTransaction() instanceof CashTransaction){
+
+            System.out.print("Transaction with the total amount " + transactionService.getTransactionById(o.getTransactionId()).getAmount() + " was paid ");
+            if(transactionService.getTransactionById(o.getTransactionId()) instanceof CashTransaction){
                 System.out.println("with cash");
             } else {
                 System.out.println("by card");

@@ -11,6 +11,7 @@ import com.store_inventory.model.enums.ProductType;
 import com.store_inventory.service.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,9 +23,10 @@ public class Menu {
     private static Menu INSTANCE;
     private final ProductService productService = new ProductServiceImpl();
     private final CategoryService categoryService = new CategoryServiceImpl();
-    private final LocationService locationService = new LocationServiceImpl();
+    private final LocationService locationService = new LocationServiceImpl(productService);
     private final SupplierService supplierService = new SupplierServiceImpl();
-    private final OrderService orderService = new OrderServiceImpl();
+    private final TransactionService transactionService = new TransactionServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl(locationService, supplierService, transactionService);
 
     public static Menu getInstance() {
         return (INSTANCE == null ? new Menu() : INSTANCE);
@@ -61,29 +63,31 @@ public class Menu {
         }
 
         System.out.println("-------------------- Products -----------------------");
-        productService.addProduct(Product.builder().name("Apple").categoryId(fructeId).expirationDate(LocalDate.now().plusDays(2))
+        Product p1 = Product.builder().id(UUID.randomUUID()).name("Apple").categoryId(fructeId).expirationDate(LocalDate.now().plusDays(2))
                 .price(5.0f).productType(ProductType.PERISHABLE).properties(new HashMap<String, String>(){{
                     put("Color", "Red");
                     put("Tara de origine", "Romania");
-                }}).build());
+                }}).build();
+        System.out.println(p1);
+        productService.addProduct(p1);
 
-        productService.addProduct(Product.builder().name("Pear").categoryId(fructeId).expirationDate(LocalDate.now().plusDays(2))
+        productService.addProduct(Product.builder().id(UUID.randomUUID()).name("Pear").categoryId(fructeId).expirationDate(LocalDate.now().plusDays(2))
                 .price(5.0f).productType(ProductType.PERISHABLE).properties(new HashMap<String, String>(){{
                     put("Culoare", "Yellow");
                 }}).build());
 
-        productService.addProduct(Product.builder().name("Banana").categoryId(legumeId).expirationDate(LocalDate.now().plusDays(10))
+        productService.addProduct(Product.builder().id(UUID.randomUUID()).name("Banana").categoryId(legumeId).expirationDate(LocalDate.now().plusDays(10))
                 .price(2.5f).productType(ProductType.PERISHABLE).properties(new HashMap<String, String>(){{
                     put("Type", "Bio");
                 }}).build());
 
-        productService.addProduct(Product.builder().name("Potato").categoryId(legumeId).expirationDate(LocalDate.now().plusDays(10))
+        productService.addProduct(Product.builder().id(UUID.randomUUID()).name("Potato").categoryId(legumeId).expirationDate(LocalDate.now().plusDays(10))
                 .price(2.5f).productType(ProductType.PERISHABLE).properties(new HashMap<String, String>(){{
                     put("Country of origin", "Ireland");
                     put("Quality", "First");
                 }}).build());
 
-        productService.addProduct(Product.builder().name("Carrot").categoryId(legumeId).expirationDate(LocalDate.now().plusDays(10))
+        productService.addProduct(Product.builder().id(UUID.randomUUID()).name("Carrot").categoryId(legumeId).expirationDate(LocalDate.now().plusDays(10))
                 .price(2.5f).productType(ProductType.PERISHABLE).properties(new HashMap<String, String>(){{
                     put("Country of origin", "Romania");
                 }}).build());
@@ -103,36 +107,36 @@ public class Menu {
             logger.log(Level.SEVERE, e.getMessage());
             return;
         }
-        Stock s1 = Stock.builder().product(potato).productQuantity(5).build();
-        Stock s2 = Stock.builder().product(potato).productQuantity(2).build();
+        Stock s1 = Stock.builder().productId(potato.getId()).productQuantity(5).build();
+        Stock s2 = Stock.builder().productId(potato.getId()).productQuantity(2).build();
         try {
             apple = productService.getProductByName("Apple").get();
         } catch (ProductNotFound e){
             logger.log(Level.SEVERE, e.getMessage());
             return;
         }
-        Stock s3 = Stock.builder().product(apple).productQuantity(25).build();
-        Stock s4 =Stock.builder().product(apple).productQuantity(50).build();
+        Stock s3 = Stock.builder().productId(apple.getId()).productQuantity(25).build();
+        Stock s4 =Stock.builder().productId(apple.getId()).productQuantity(50).build();
         try {
             pear = productService.getProductByName("Pear").get();
         } catch (ProductNotFound e){
             logger.log(Level.SEVERE, e.getMessage());
             return;
         }
-        Stock s5 = Stock.builder().product(pear).productQuantity(100).build();
-        Stock s6 = Stock.builder().product(pear).productQuantity(500).build();
+        Stock s5 = Stock.builder().productId(pear.getId()).productQuantity(100).build();
+        Stock s6 = Stock.builder().productId(pear.getId()).productQuantity(500).build();
         try {
             banana = productService.getProductByName("Banana").get();
         } catch (ProductNotFound e){
             logger.log(Level.SEVERE, e.getMessage());
             return;
         }
-        Stock s7 = Stock.builder().product(banana).productQuantity(200).build();
-        Stock s8 = Stock.builder().product(banana).productQuantity(250).build();
+        Stock s7 = Stock.builder().productId(banana.getId()).productQuantity(200).build();
+        Stock s8 = Stock.builder().productId(banana.getId()).productQuantity(250).build();
 
-        locationService.addLocation(Location.builder().name("Emag").address("Leon Street").locationType(LocationType.SHOP).maxStockCapacity(1000).build());
-        locationService.addLocation(Location.builder().name("Target").address("Mayflower Street").locationType(LocationType.SHOP).maxStockCapacity(500).build());
-        locationService.addLocation(Location.builder().name("Mobexpert").address("Wakley Stree").locationType(LocationType.DEPOSIT).maxStockCapacity(2500).build());
+        locationService.addLocation(Location.builder().name("Emag").address("Leon Street").locationType(LocationType.SHOP).maxStockCapacity(1000).locationStocks(new ArrayList<>()).build());
+        locationService.addLocation(Location.builder().name("Target").address("Mayflower Street").locationType(LocationType.SHOP).locationStocks(new ArrayList<>()).maxStockCapacity(500).build());
+        locationService.addLocation(Location.builder().name("Mobexpert").address("Wakley Stree").locationType(LocationType.DEPOSIT).locationStocks(new ArrayList<>()).maxStockCapacity(2500).build());
 
         UUID emag, target, mobexpert;
         try {
@@ -172,15 +176,15 @@ public class Menu {
             logger.log(Level.SEVERE, e.getMessage());
             return;
         }
-        System.out.println("Emag has potatos in stock:");
-        System.out.println(s.get().getProduct().getName() + ": " + s.get().getProductQuantity());
+        System.out.println("Emag has potatoes in stock:");
+        System.out.println(s.get().getProductId() + ": " + s.get().getProductQuantity());
     }
 
     public void showSuppliers(){
         System.out.println("-------------------- Suppliers -----------------------");
-        supplierService.addSupplier(Supplier.builder().supplierName("The Local Supply Depot").supplierAddress("Sunrise Street").contactNumber("0712312312").build());
-        supplierService.addSupplier(Supplier.builder().supplierName("The Supply Corner").supplierAddress("Occasion Street").contactNumber("0712315412").build());
-        supplierService.addSupplier(Supplier.builder().supplierName("Totally Stocked").supplierAddress("Global Street").contactNumber("0712312300").build());
+        supplierService.addSupplier(Supplier.builder().id(UUID.randomUUID()).supplierName("The Local Supply Depot").supplierAddress("Sunrise Street").contactNumber("0712312312").build());
+        supplierService.addSupplier(Supplier.builder().id(UUID.randomUUID()).supplierName("The Supply Corner").supplierAddress("Occasion Street").contactNumber("0712315412").build());
+        supplierService.addSupplier(Supplier.builder().id(UUID.randomUUID()).supplierName("Totally Stocked").supplierAddress("Global Street").contactNumber("0712312300").build());
         supplierService.printAllSuppliers();
     }
     public void showOrders() {
@@ -253,16 +257,16 @@ public class Menu {
             return;
         }
 
-        Order o1 = Order.builder().supplier(s1.get()).orderLocation(l1.get()).totalPrice(40).orderedProducts(new HashMap<Product, Integer>(){{
+        Order o1 = Order.builder().supplierId(s1.get().getId()).orderLocationId(l1.get().getId()).totalPrice(40).orderedProducts(new HashMap<Product, Integer>(){{
             put(pear.get(), 10);
             put(potato.get(), 50);
         }}).build();
-        Order o2 = Order.builder().supplier(s2.get()).orderLocation(l2.get()).totalPrice(100).orderedProducts(new HashMap<Product, Integer>(){{
+        Order o2 = Order.builder().supplierId(s2.get().getId()).orderLocationId(l2.get().getId()).totalPrice(100).orderedProducts(new HashMap<Product, Integer>(){{
             put(apple.get(), 100);
             put(banana.get(), 50);
             put(potato.get(), 50);
         }}).build();
-        Order o3 = Order.builder().supplier(s3.get()).orderLocation(l3.get()).totalPrice(80).orderedProducts(new HashMap<Product, Integer>(){{
+        Order o3 = Order.builder().supplierId(s3.get().getId()).orderLocationId(l3.get().getId()).totalPrice(80).orderedProducts(new HashMap<Product, Integer>(){{
             put(pear.get(), 20);
             put(potato.get(), 100);
         }}).build();
@@ -270,6 +274,10 @@ public class Menu {
         Transaction t1 = CashTransaction.builder().amount(40.f).build();
         Transaction t2 = CardTransaction.builder().amount(100.f).cardNumber("1234567890123456").cardExpirationDate(LocalDate.now().plusDays(10)).cardHolderName("Person 1").build();
         Transaction t3 = CardTransaction.builder().amount(80.f).cardNumber("1234567890123456").cardExpirationDate(LocalDate.now().plusDays(20)).cardHolderName("Person 2").build();
+
+        transactionService.addTransaction(t1);
+        transactionService.addTransaction(t2);
+        transactionService.addTransaction(t3);
 
         orderService.addOrder(o1);
         orderService.updateOrderTransaction(o1.getId(), t1);

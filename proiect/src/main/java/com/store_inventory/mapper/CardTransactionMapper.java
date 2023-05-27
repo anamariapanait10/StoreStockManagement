@@ -4,10 +4,9 @@ import com.store_inventory.model.CardTransaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class CardTransactionMapper {
     private static final CardTransactionMapper INSTANCE = new CardTransactionMapper();
@@ -19,15 +18,20 @@ public class CardTransactionMapper {
     }
     public Optional<CardTransaction> mapToCardTransaction(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return Optional.of(
-                    CardTransaction.builder()
-                            .id(UUID.fromString(resultSet.getString("id")))
-                            .amount(resultSet.getFloat("amount"))
-                            .cardNumber(resultSet.getString("card_number"))
-                            .cardExpirationDate(resultSet.getString("expiration_date"))
-                            .cardHolderName(resultSet.getString("card_holder_name"))
-                            .build()
-            );
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
+            formatter = formatter.withLocale(Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(resultSet.getString("expiration_date"), formatter);
+
+            CardTransaction obj = CardTransaction.builder()
+                    .amount(resultSet.getFloat("amount"))
+                    .cardNumber(resultSet.getString("card_number"))
+                    .cardExpirationDate(date)
+                    .cardHolderName(resultSet.getString("card_holder_name"))
+                    .build();
+
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

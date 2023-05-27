@@ -5,14 +5,14 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.SupplierMapper;
 import com.store_inventory.model.Supplier;
-import com.store_inventory.repository.SupplierRepository;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
-public class SupplierRepositoryImpl implements SupplierRepository {
+public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
     private static final SupplierMapper supplierMapper = SupplierMapper.getInstance();
 
     @Override
@@ -48,7 +48,7 @@ public class SupplierRepositoryImpl implements SupplierRepository {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                return SupplierMapper.mapToSupplierList(resultSet).stream().findAny();
+                return supplierMapper.mapToSupplierList(resultSet).stream().findAny();
             }
         }
         return Optional.empty();
@@ -69,38 +69,33 @@ public class SupplierRepositoryImpl implements SupplierRepository {
     @Override
     public void updateObjectById(UUID id, Supplier newObject) {
 
-        String updateNameSql = "UPDATE supplier SET name=?, address=?, supplier_type=?, max_stock_capacity=? WHERE id=?";
+        String updateNameSql = "UPDATE supplier SET name=?, address=?, contact_number=? WHERE id=?";
 
         Connection connection = DatabaseConfiguration.getDbConn();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
-            preparedStatement.setString(1, newObject.getName());
-            preparedStatement.setString(2, newObject.getAddress());
-            preparedStatement.setString(3, newObject.getSupplierType().getTypeString());
-            preparedStatement.setInt(4, newObject.getMaxStockCapacity());
-            preparedStatement.setString(5, id.toString());
+            preparedStatement.setString(1, newObject.getSupplierName());
+            preparedStatement.setString(2, newObject.getSupplierAddress());
+            preparedStatement.setString(3, newObject.getContactNumber());
+            preparedStatement.setString(4, id.toString());
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-
             e.printStackTrace();
-
         }
-
     }
 
     public void addNewObject (Supplier supplier) {
 
         Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "INSERT INTO supplier (id, name, address, supplier_type, max_stock_capacity) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO supplier (id, name, address, contact_number) VALUES(?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, supplier.getId().toString());
-            stmt.setString(2, supplier.getName());
-            stmt.setString(3, supplier.getAddress());
-            stmt.setString(4, supplier.getSupplierType().toString());
-            stmt.setInt(5, supplier.getMaxStockCapacity());
+            stmt.setString(2, supplier.getSupplierName());
+            stmt.setString(3, supplier.getSupplierAddress());
+            stmt.setString(4, supplier.getContactNumber());
             stmt.executeUpdate();
 
         } catch (SQLException e) {

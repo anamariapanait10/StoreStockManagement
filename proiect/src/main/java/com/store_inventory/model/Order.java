@@ -15,23 +15,23 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class Order extends AbstractEntity {
-    private Map<Product, Integer> orderedProducts;
-    private Location orderLocation;
-    private Supplier supplier;
+    private Map<Product, Integer> orderedProducts; // UUID is product ID
+    private UUID orderLocationId;
+    private UUID supplierId;
     private float totalPrice;
-    private Transaction transaction;
+    private UUID transactionId;
 
-    public Order(Location orderLocation) {
+    public Order(UUID orderLocation) {
         super(UUID.randomUUID(), LocalDate.now());
         this.orderedProducts = new HashMap<>();
-        this.orderLocation = orderLocation;
+        this.orderLocationId = orderLocation;
         this.totalPrice = 0;
     }
 
-    public Order(Map<Product, Integer> orderedProducts, Location orderLocation) {
+    public Order(Map<Product, Integer> orderedProducts, UUID orderLocation) {
         super(UUID.randomUUID(), LocalDate.now());
         this.orderedProducts = orderedProducts;
-        this.orderLocation = orderLocation;
+        this.orderLocationId = orderLocation;
         updateTotalPrice();
     }
 

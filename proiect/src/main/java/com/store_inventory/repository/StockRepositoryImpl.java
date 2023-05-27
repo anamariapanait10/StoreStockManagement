@@ -5,6 +5,7 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.StockMapper;
 import com.store_inventory.model.Stock;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class StockRepositoryImpl {
+public non-sealed class StockRepositoryImpl implements StockRepository{
     private static final StockMapper stockMapper = StockMapper.getInstance();
 
     @Override
@@ -40,24 +41,6 @@ public class StockRepositoryImpl {
     }
 
     @Override
-    public Optional<Stock> getObjectByName (String name) throws SQLException {
-
-        Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "SELECT * FROM stock WHERE name = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setString(1, name);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                return StockMapper.mapToStockList(resultSet).stream().findAny();
-            }
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public void deleteObjectById(UUID id) {
 
         String updateNameSql = "DELETE FROM stock WHERE id=?";
@@ -72,13 +55,13 @@ public class StockRepositoryImpl {
     @Override
     public void updateObjectById(UUID id, Stock newObject) {
 
-        String updateNameSql = "UPDATE stock SET product=?, quantity=? WHERE id=?";
+        String updateNameSql = "UPDATE stock SET product_id=?, quantity=? WHERE id=?";
 
         Connection connection = DatabaseConfiguration.getDbConn();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
-            preparedStatement.setString(1, newObject.getProduct().getName());
+            preparedStatement.setString(1, newObject.getProductId().toString());
             preparedStatement.setInt(2, newObject.getProductQuantity());
             preparedStatement.setString(3, id.toString());
 
@@ -92,10 +75,10 @@ public class StockRepositoryImpl {
     public void addNewObject (Stock stock) {
 
         Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "INSERT INTO stock (id, product, quantity) VALUES(?, ?, ?)";
+        String query = "INSERT INTO stock (id, product_id, quantity) VALUES(?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, stock.getId().toString());
-            stmt.setString(2, stock.getProduct().getName());
+            stmt.setString(2, stock.getProductId().toString());
             stmt.setInt(3, stock.getProductQuantity());
             stmt.executeUpdate();
 

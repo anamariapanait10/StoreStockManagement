@@ -2,6 +2,7 @@ package com.store_inventory.model;
 
 import com.store_inventory.model.abstracts.Transaction;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.function.BiPredicate;
@@ -10,6 +11,7 @@ import java.util.function.BiPredicate;
 @Getter
 @Setter
 @ToString
+@SuperBuilder
 public class CardTransaction extends Transaction {
 
     private String cardNumber;

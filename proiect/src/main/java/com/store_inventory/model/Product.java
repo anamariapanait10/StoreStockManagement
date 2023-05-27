@@ -2,6 +2,7 @@ package com.store_inventory.model;
 import com.store_inventory.model.abstracts.AbstractEntity;
 import com.store_inventory.model.enums.ProductType;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Builder
+@SuperBuilder
 public class Product extends AbstractEntity implements Comparable<Product>{
     private String name;
     private UUID categoryId;

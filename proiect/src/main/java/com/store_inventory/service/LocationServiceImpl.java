@@ -2,10 +2,9 @@ package com.store_inventory.service;
 
 import com.store_inventory.exceptions.LocationNotFound;
 import com.store_inventory.exceptions.StockNotFound;
-import com.store_inventory.exceptions.SupplierNotFound;
 import com.store_inventory.model.*;
 import com.store_inventory.model.enums.LocationType;
-import com.store_inventory.service.LocationService;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,6 +12,12 @@ import java.util.stream.Collectors;
 public final class LocationServiceImpl implements LocationService {
     private static List<Location> locationList = new ArrayList<>();
 
+    private static ProductService productService;
+
+
+    public LocationServiceImpl(ProductService productService){
+        LocationServiceImpl.productService = productService;
+    }
     @Override
     public List<Location> getAllLocations() {
         return locationList;
@@ -91,7 +96,7 @@ public final class LocationServiceImpl implements LocationService {
         for(Location l: locationList) {
             System.out.println("Location " + l.getName() + "(" + l.getLocationType() + "):");
             for(Stock s: l.getLocationStocks()){
-                System.out.println("-> " + s.getProduct().getName() + ": " + s.getProductQuantity());
+                System.out.println("-> " + productService.getProductById(s.getProductId()).get().getName() + ": " + s.getProductQuantity());
             }
         }
     }

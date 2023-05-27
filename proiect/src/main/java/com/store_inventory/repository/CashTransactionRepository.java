@@ -1,4 +1,6 @@
 package com.store_inventory.repository;
 
-public interface CashTransactionRepository {
+import com.store_inventory.model.CashTransaction;
+
+public sealed interface CashTransactionRepository extends Repository<CashTransaction> permits CashTransactionRepositoryImpl{
 }

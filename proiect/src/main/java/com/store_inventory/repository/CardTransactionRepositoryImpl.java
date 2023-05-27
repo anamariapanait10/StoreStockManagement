@@ -5,7 +5,6 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.CardTransactionMapper;
 import com.store_inventory.model.CardTransaction;
-import com.store_inventory.repository.CardTransactionRepository;
 import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.Connection;
@@ -53,7 +52,7 @@ public non-sealed class CardTransactionRepositoryImpl implements CardTransaction
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                return CardTransactionMapper.mapToCardTransactionList(resultSet).stream().findAny();
+                return cardtransactionMapper.mapToCardTransactionList(resultSet).stream().findAny();
             }
         }
         return Optional.empty();
@@ -93,6 +92,7 @@ public non-sealed class CardTransactionRepositoryImpl implements CardTransaction
         }
     }
 
+    @Override
     public void addNewObject (CardTransaction cardtransaction) {
 
         Connection connection = DatabaseConfiguration.getDbConn();

@@ -20,14 +20,13 @@ public class SupplierMapper {
 
     public Optional<Supplier> mapToSupplier(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return Optional.of(
-                Supplier.builder()
-                    .id(UUID.fromString(resultSet.getString("id")))
+            Supplier obj = Supplier.builder()
                     .supplierName(resultSet.getString("name"))
                     .supplierAddress(resultSet.getString("address"))
                     .contactNumber(resultSet.getString("contact_number"))
-                    .build()
-            );
+                    .build();
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

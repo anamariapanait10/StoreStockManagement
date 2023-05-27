@@ -5,6 +5,7 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.CashTransactionMapper;
 import com.store_inventory.model.CashTransaction;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class CashTransactionRepositoryImpl {
+public non-sealed class CashTransactionRepositoryImpl implements CashTransactionRepository {
     private static final CashTransactionMapper cashtransactionMapper = CashTransactionMapper.getInstance();
 
     @Override
@@ -37,24 +38,6 @@ public class CashTransactionRepositoryImpl {
             CsvLogger.getInstance().logAction(LogServiceImpl.getInstance().logIntoCsv(Level.INFO, "Get cashtransaction with id " + id + " was done successfully"));
             return cashtransaction;
         }
-    }
-
-    @Override
-    public Optional<CashTransaction> getObjectByName (String name) throws SQLException {
-
-        Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "SELECT * FROM cashtransaction WHERE name = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setString(1, name);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                return CashTransactionMapper.mapToCashTransactionList(resultSet).stream().findAny();
-            }
-        }
-        return Optional.empty();
     }
 
     @Override
@@ -87,6 +70,7 @@ public class CashTransactionRepositoryImpl {
         }
     }
 
+    @Override
     public void addNewObject (CashTransaction cashtransaction) {
 
         Connection connection = DatabaseConfiguration.getDbConn();

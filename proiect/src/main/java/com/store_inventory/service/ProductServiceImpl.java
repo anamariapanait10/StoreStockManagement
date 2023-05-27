@@ -24,7 +24,7 @@ public final class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> getProductByName(String productName) throws ProductNotFound {
         Optional<Product> p = productList.stream().filter(c -> Objects.equals(c.getName(), productName)).findAny();
-        if (!p.isPresent()){
+        if (p.isEmpty()){
             throw new ProductNotFound();
         }
         return p;

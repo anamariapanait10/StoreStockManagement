@@ -5,7 +5,7 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.ProductMapper;
 import com.store_inventory.model.Product;
-import com.store_inventory.repository.ProductRepository;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.*;
 import java.util.List;
@@ -48,7 +48,7 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                return ProductMapper.mapToProductList(resultSet).stream().findAny();
+                return productMapper.mapToProductList(resultSet).stream().findAny();
             }
         }
         return Optional.empty();
@@ -83,9 +83,7 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-
             e.printStackTrace();
-
         }
 
     }

@@ -5,14 +5,14 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.LocationMapper;
 import com.store_inventory.model.Location;
-import com.store_inventory.repository.LocationRepository;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
-public class LocationRepositoryImpl implements LocationRepository {
+public non-sealed class LocationRepositoryImpl implements LocationRepository {
     private static final LocationMapper locationMapper = LocationMapper.getInstance();
 
     @Override
@@ -48,7 +48,7 @@ public class LocationRepositoryImpl implements LocationRepository {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                return LocationMapper.mapToLocationList(resultSet).stream().findAny();
+                return locationMapper.mapToLocationList(resultSet).stream().findAny();
             }
         }
         return Optional.empty();
@@ -91,6 +91,7 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     }
 
+    @Override
     public void addNewObject (Location location) {
 
         Connection connection = DatabaseConfiguration.getDbConn();

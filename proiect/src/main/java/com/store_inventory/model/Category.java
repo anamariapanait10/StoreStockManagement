@@ -3,6 +3,7 @@ package com.store_inventory.model;
 import com.store_inventory.model.abstracts.AbstractEntity;
 import com.store_inventory.service.CategoryService;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 public class Category extends AbstractEntity implements Comparable<Category> {
     private String name;
     private UUID categoryParent;

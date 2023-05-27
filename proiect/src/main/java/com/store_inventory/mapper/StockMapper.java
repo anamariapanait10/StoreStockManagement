@@ -19,13 +19,12 @@ public class StockMapper {
     }
     public Optional<Stock> mapToStock(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return Optional.of(
-                    Stock.builder()
-                            .id(UUID.fromString(resultSet.getString("id")))
-                            .product(resultSet.getString("product"))
-                            .productQuantity(resultSet.getString("quantity"))
-                            .build()
-            );
+            Stock obj = Stock.builder()
+                    .productId(UUID.fromString(resultSet.getString("productId")))
+                    .productQuantity(resultSet.getInt("quantity"))
+                    .build();
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

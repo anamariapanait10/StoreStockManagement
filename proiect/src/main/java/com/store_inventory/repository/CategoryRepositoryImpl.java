@@ -5,13 +5,14 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.CategoryMapper;
 import com.store_inventory.model.Category;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
-public class CategoryRepositoryImpl {
+public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
     private static final CategoryMapper categoryMapper = CategoryMapper.getInstance();
 
     @Override
@@ -47,7 +48,7 @@ public class CategoryRepositoryImpl {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                return CategoryMapper.mapToCategoryList(resultSet).stream().findAny();
+                return categoryMapper.mapToCategoryList(resultSet).stream().findAny();
             }
         }
         return Optional.empty();
@@ -85,6 +86,7 @@ public class CategoryRepositoryImpl {
         }
     }
 
+    @Override
     public void addNewObject (Category category) {
 
         Connection connection = DatabaseConfiguration.getDbConn();

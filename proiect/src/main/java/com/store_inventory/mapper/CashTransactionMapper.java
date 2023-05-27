@@ -19,12 +19,11 @@ public class CashTransactionMapper {
     }
     public Optional<CashTransaction> mapToCashTransaction(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return Optional.of(
-                    CashTransaction.builder()
-                            .id(UUID.fromString(resultSet.getString("id")))
-                            .amount(resultSet.getFloat("amount"))
-                            .build()
-            );
+            CashTransaction obj = CashTransaction.builder()
+                    .amount(resultSet.getFloat("amount"))
+                    .build();
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

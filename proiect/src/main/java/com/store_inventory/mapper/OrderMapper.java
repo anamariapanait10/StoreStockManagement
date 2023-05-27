@@ -1,6 +1,7 @@
 package com.store_inventory.mapper;
 
 import com.store_inventory.model.Order;
+import com.store_inventory.model.Supplier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,14 +20,14 @@ public class OrderMapper {
     }
     public Optional<Order> mapToOrder(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return Optional.of(
-                    Order.builder()
-                            .id(UUID.fromString(resultSet.getString("id")))
-                            .supplier(resultSet.getString("supplier"))
-                            .orderLocation(resultSet.getString("location"))
-                            .totalPrice(resultSet.getFloat("price"))
-                            .build()
-            );
+            Order obj = Order.builder()
+                    .orderLocationId(UUID.fromString(resultSet.getString("locationId")))
+                    .supplierId(UUID.fromString(resultSet.getString("supplierId")))
+                    .transactionId(UUID.fromString(resultSet.getString("transactionId")))
+                    .totalPrice(resultSet.getFloat("price"))
+                    .build();
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

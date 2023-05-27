@@ -21,15 +21,14 @@ public class LocationMapper {
     public Optional<Location> mapToLocation(ResultSet resultSet) throws SQLException {
 
         if (resultSet.next()) {
-            return Optional.of(
-                Location.builder()
-                    .id(UUID.fromString(resultSet.getString("id")))
+            Location obj = Location.builder()
                     .name(resultSet.getString("name"))
                     .address(resultSet.getString("address"))
                     .locationType(LocationType.valueOf(resultSet.getString("type")))
                     .maxStockCapacity(resultSet.getInt("max_stock_capacity"))
-                    .build()
-            );
+                    .build();
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

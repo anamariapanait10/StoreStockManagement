@@ -22,15 +22,14 @@ public class ProductMapper {
 
     public Optional<Product> mapToProduct(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return Optional.of(
-                Product.builder()
-                    .id(UUID.fromString(resultSet.getString("id")))
+            Product obj = Product.builder()
                     .name(resultSet.getString("name"))
                     .price(resultSet.getFloat("price"))
                     .productType(ProductType.valueOf(resultSet.getString("type")))
                     .categoryId(UUID.fromString(resultSet.getString("category_id")))
-                    .build()
-            );
+                    .build();
+            obj.setId(UUID.fromString(resultSet.getString("id")));
+            return Optional.of(obj);
         } else {
             return Optional.empty();
         }

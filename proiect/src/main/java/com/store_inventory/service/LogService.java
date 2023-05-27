@@ -7,5 +7,5 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 public interface LogService {
     void log(Level level, String action);
-    LoggerRecord logIntoCSV(Level level, String message);
+    LoggerRecord logIntoCsv(Level level, String message);
 }

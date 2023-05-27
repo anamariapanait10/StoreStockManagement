@@ -5,6 +5,7 @@ import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.OrderMapper;
 import com.store_inventory.model.Order;
+import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class OrderRepositoryImpl {
+public non-sealed class OrderRepositoryImpl implements OrderRepository {
     private static final OrderMapper orderMapper = OrderMapper.getInstance();
 
     @Override
@@ -40,24 +41,6 @@ public class OrderRepositoryImpl {
     }
 
     @Override
-    public Optional<Order> getObjectByName (String name) throws SQLException {
-
-        Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "SELECT * FROM order WHERE name = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setString(1, name);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                return OrderMapper.mapToOrderList(resultSet).stream().findAny();
-            }
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public void deleteObjectById(UUID id) {
 
         String updateNameSql = "DELETE FROM order WHERE id=?";
@@ -78,8 +61,8 @@ public class OrderRepositoryImpl {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
-            preparedStatement.setString(1, newObject.getSupplier().toString());
-            preparedStatement.setString(2, newObject.getOrderLocation().getName());
+            preparedStatement.setString(1, newObject.getSupplierId().toString());
+            preparedStatement.setString(2, newObject.getOrderLocationId().toString());
             preparedStatement.setFloat(3, newObject.getTotalPrice());
             preparedStatement.setString(4, id.toString());
 
@@ -96,8 +79,8 @@ public class OrderRepositoryImpl {
         String query = "INSERT INTO order (id, supplier, location, price) VALUES(?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, order.getId().toString());
-            stmt.setString(2, order.getSupplier().toString());
-            stmt.setString(3, order.getOrderLocation().getAddress());
+            stmt.setString(2, order.getSupplierId().toString());
+            stmt.setString(3, order.getOrderLocationId().toString());
             stmt.setFloat(4, order.getTotalPrice());
             stmt.executeUpdate();
 
