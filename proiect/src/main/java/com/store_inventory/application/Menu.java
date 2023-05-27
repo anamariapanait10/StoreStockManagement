@@ -11,6 +11,7 @@ import com.store_inventory.model.enums.ProductType;
 import com.store_inventory.service.*;
 import com.store_inventory.threads.ProductExpirationThread;
 
+import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -275,6 +276,10 @@ public class Menu {
         Transaction t2 = CardTransaction.builder().amount(100.f).cardNumber("1234567890123456").cardExpirationDate(LocalDate.now().plusDays(10)).cardHolderName("Person 1").build();
         Transaction t3 = CardTransaction.builder().amount(80.f).cardNumber("1234567890123456").cardExpirationDate(LocalDate.now().plusDays(20)).cardHolderName("Person 2").build();
 
+        t1.setId(UUID.randomUUID());
+        t2.setId(UUID.randomUUID());
+        t3.setId(UUID.randomUUID());
+
         transactionService.addTransaction(t1);
         transactionService.addTransaction(t2);
         transactionService.addTransaction(t3);
@@ -306,81 +311,56 @@ public class Menu {
         }
     }
 
-//    public void demoOnIterator() {
-//        System.out.println("-------------------- Demo on iterator -----------------------");
-//        System.out.println("------- Demo on retrieving the category names with the highest number of subcategories ---------\n");
-//
-//        List<Category> categories = categoryService.get
-//
-//        if (products.isPresent()) {
-//            Video video = products.get();
-//            System.out.println(video.getTitle() + " ---- " + video.getDuration());
-//        }
-//
-//        System.out.println("-----Demo on iterator, and deleting objects from database-----");
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-//
-//        System.out.println("\n  Before deleting:");
-//        videoService.getAllItems().forEach(vid -> System.out.println("Video: " + vid.getTitle() + " ---- " + vid.getDuration().format(formatter)));
-//
-//        Iterator<Video> videoIterator = videoService.getAllItems().iterator();
-//        while (videoIterator.hasNext()) {
-//            Video vid = videoIterator.next();
-//
-//            if (vid.getDuration().isAfter(LocalTime.parse("00:30:00", DateTimeFormatter.ISO_TIME))) {
-//                videoService.removeById(vid.getId());
-//                videoIterator.remove();
-//            }
-//        }
-//
-//        System.out.println("\n  After deleting:");
-//        videoService.getAllItems().forEach(vid -> System.out.println("Video: " + vid.getTitle() + " ---- " + vid.getDuration().format(formatter)));
-//    }
-//
-//    public void demoOnLoggingErrors() {
-//        studentService.getById(UUID.randomUUID());
-//
-//        documentService.getById(UUID.randomUUID());
-//
-//        Teacher teacher = Teacher.builder()
-//                .id(UUID.randomUUID())
-//                .firstName("Ioneel")
-//                .lastName("Ioneescu")
-//                .email("ioneel.ionescuuu@gmail")
-//                .password("TesteazaLoggerul")
-//                .degree("masterand")
-//                .build();
-//
-//        userService.addOnlyOne(teacher);
-//
-//        teacher = Teacher.builder()
-//                .id(UUID.randomUUID())
-//                .firstName("Ionel")
-//                .lastName("Ionescu")
-//                .email("ionel.ionescuuu@gmail")
-//                .password("TesteazaLoggerul")
-//                .degree("doctorand")
-//                .build();
-//
-//        teacherService.addOnlyOne(teacher);
-//
-//        Student student = Student.builder()
-//                .id(UUID.randomUUID())
-//                .firstName("Mariaana")
-//                .lastName("MariaaairaM")
-//                .email("mariiana@gmail")
-//                .password("pal")
-//                .build();
-//
-//        studentService.addOnlyOne(student);
-//    }
-//    public void demo() {
-//        System.out.println("------------- Demo on usage of database -------------");
-//
-//        List<Product> productList = productService.getAllProductsByCategoryId(UUID.fromString("ec653158-5fba-4f08-beef-fff7e82e8aef"));
-//
-//        productList.forEach(System.out::println);
-//    }
+    public void demoOnIterator() {
+        System.out.println("-------------------- Demo on iterator -----------------------");
+        System.out.println("------- Demo on retrieving the category with the longest name ---------\n");
+
+        Optional<Category> optionalCategory = categoryService.getCatgoryWithLogestName();
+
+        if (optionalCategory.isPresent()) {
+            Category category = optionalCategory.get();
+            System.out.println("Category name: " + category.getName() + " has the longest name");
+        }
+
+        System.out.println("---------- Demo on iterator, and deleting objects from database ---------");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        System.out.println("\n  Before deleting:");
+        productService.getAllProducts().forEach(p -> System.out.println("Product: " + p.getName() + ", Expiration date: " + p.getExpirationDate().format(formatter)));
+
+        Iterator<Product> prodIterator = productService.getAllProducts().iterator();
+        while (prodIterator.hasNext()) {
+            Product p = prodIterator.next();
+
+            if (p.getExpirationDate().isAfter(LocalDate.now())) {
+                productService.getProductById(p.getId());
+                prodIterator.remove();
+            }
+        }
+
+        System.out.println("\n  After deleting:");
+        productService.getAllProducts().forEach(p -> System.out.println("Product: " + p.getName() + ", Expiration date: " + p.getExpirationDate().format(formatter)));
+    }
+
+    public void demoOnLoggingErrors() {
+
+        productService.getProductById(UUID.randomUUID());
+        categoryService.getCategoryById(UUID.randomUUID());
+
+        Category cat = Category.builder()
+                .id(UUID.randomUUID())
+                .name("Pear")
+                .build();
+        categoryService.addCategory(cat);
+
+    }
+    public void demo() {
+        System.out.println("------------- Demo on usage of database -------------");
+
+        List<Product> productList = productService.getAllProductsByCategoryId(UUID.fromString("ec653158-5fba-4f08-beef-fff7e82e8aef"));
+
+        productList.forEach(System.out::println);
+    }
 
 }

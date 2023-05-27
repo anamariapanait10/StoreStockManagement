@@ -1,13 +1,14 @@
 package com.store_inventory.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.store_inventory.model.CardTransaction;
 import com.store_inventory.model.CashTransaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class CashTransactionMapper {
     private static final CashTransactionMapper INSTANCE = new CashTransactionMapper();
@@ -33,9 +34,17 @@ public class CashTransactionMapper {
         List<CashTransaction> CashTransactionList = new ArrayList<>();
 
         while(resultSet.next()){
-            CashTransactionList.add(mapToCashTransaction(resultSet).get());
+            CashTransactionList.add(mapToOneCashTransaction(resultSet).get());
         }
 
         return CashTransactionList;
+    }
+
+    private Optional<CashTransaction> mapToOneCashTransaction(ResultSet resultSet) throws SQLException {
+        CashTransaction obj = CashTransaction.builder()
+                .amount(resultSet.getFloat("amount"))
+                .build();
+        obj.setId(UUID.fromString(resultSet.getString("id")));
+        return Optional.of(obj);
     }
 }

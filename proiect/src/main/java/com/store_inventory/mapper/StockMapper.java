@@ -1,6 +1,8 @@
 package com.store_inventory.mapper;
 
+import com.store_inventory.model.Product;
 import com.store_inventory.model.Stock;
+import com.store_inventory.model.enums.ProductType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class StockMapper {
     public Optional<Stock> mapToStock(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             Stock obj = Stock.builder()
-                    .productId(UUID.fromString(resultSet.getString("productId")))
+                    .productId(UUID.fromString(resultSet.getString("product_id")))
                     .productQuantity(resultSet.getInt("quantity"))
                     .build();
             obj.setId(UUID.fromString(resultSet.getString("id")));
@@ -34,9 +36,18 @@ public class StockMapper {
         List<Stock> StockList = new ArrayList<>();
 
         while(resultSet.next()){
-            StockList.add(mapToStock(resultSet).get());
+            StockList.add(mapToOneStock(resultSet).get());
         }
 
         return StockList;
+    }
+
+    private Optional<Stock> mapToOneStock(ResultSet resultSet) throws SQLException {
+        Stock obj = Stock.builder()
+                .productId(UUID.fromString(resultSet.getString("product_id")))
+                .productQuantity(resultSet.getInt("quantity"))
+                .build();
+        obj.setId(UUID.fromString(resultSet.getString("id")));
+        return Optional.of(obj);
     }
 }

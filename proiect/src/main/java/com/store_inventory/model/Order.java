@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class Order extends AbstractEntity {
-    private Map<Product, Integer> orderedProducts; // UUID is product ID
+    private Map<Product, Integer> orderedProducts;
     private UUID orderLocationId;
     private UUID supplierId;
     private float totalPrice;

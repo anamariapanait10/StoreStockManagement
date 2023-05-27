@@ -47,13 +47,13 @@ public class DatabaseConfiguration {
 
         try(Statement delete = dbConn.createStatement()){
             delete.addBatch(cashSql);
-            delete.addBatch(categorySql);
-            delete.addBatch(locationSql);
             delete.addBatch(orderSql);
             delete.addBatch(stockSql);
             delete.addBatch(productSql);
             delete.addBatch(supplierSql);
             delete.addBatch(cardSql);
+            delete.addBatch(locationSql);
+            delete.addBatch(categorySql);
 
             delete.executeBatch();
         }
@@ -67,7 +67,8 @@ public class DatabaseConfiguration {
                 "    creation_date DATE," +
                 "    amount NUMERIC(15, 3)," +
                 "    card_number VARCHAR(40)," +
-                "    card_expiration_date DATE" +
+                "    card_expiration_date DATE," +
+                "    card_holder_name VARCHAR(40)" +
                 ")";
 
         String cashSql = "CREATE TABLE IF NOT EXISTS CashTransaction (" +
@@ -89,7 +90,8 @@ public class DatabaseConfiguration {
                 "    name VARCHAR(60)," +
                 "    address VARCHAR(60)," +
                 "    type VARCHAR(20)," +
-                "    max_stock_capacity INTEGER" +
+                "    max_stock_capacity INTEGER," +
+                "    stocks VARCHAR(1000)" +
                 ")";
 
         String supplierSql = "CREATE TABLE IF NOT EXISTS Supplier (" +
@@ -106,7 +108,8 @@ public class DatabaseConfiguration {
                 "    order_location_id UUID references Location(id) ON UPDATE CASCADE ON DELETE CASCADE," +
                 "    supplier_id UUID references Supplier(id) ON UPDATE CASCADE ON DELETE CASCADE," +
                 "    transaction_id UUID," +
-                "    total_price NUMERIC(15, 3)" +
+                "    total_price NUMERIC(15, 3)," +
+                "    orders VARCHAR(1000)" +
                 ")";
 
         String productSql = "CREATE TABLE IF NOT EXISTS Product (" +
@@ -116,7 +119,7 @@ public class DatabaseConfiguration {
                 "    category_id UUID references Category(id) ON UPDATE CASCADE ON DELETE CASCADE," +
                 "    expiration_date DATE," +
                 "    price NUMERIC(15, 3)," +
-                "    type VARCHAR(20)," +
+                "    type VARCHAR(40)," +
                 "    expiration_status VARCHAR(20)" +
                 ")";
 

@@ -15,4 +15,5 @@ public sealed interface ProductService permits ProductServiceImpl{
     void removeProductById(UUID id);
     void sortByProductName();
     void printAllProducts();
+    List<Product> getAllProductsByCategoryId(UUID category_id);
 }

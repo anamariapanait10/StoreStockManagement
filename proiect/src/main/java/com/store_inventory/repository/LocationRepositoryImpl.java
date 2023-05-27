@@ -1,10 +1,13 @@
 package com.store_inventory.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.store_inventory.application.csv.CsvLogger;
 import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
 import com.store_inventory.mapper.LocationMapper;
 import com.store_inventory.model.Location;
+import com.store_inventory.model.Stock;
 import com.store_inventory.service.LogServiceImpl;
 
 import java.sql.*;
@@ -33,6 +36,8 @@ public non-sealed class LocationRepositoryImpl implements LocationRepository {
             }
             CsvLogger.getInstance().logAction(LogServiceImpl.getInstance().logIntoCsv(Level.INFO, "Get location with id " + id + " was done successfully"));
             return location;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -50,8 +55,32 @@ public non-sealed class LocationRepositoryImpl implements LocationRepository {
             if (resultSet.next()) {
                 return locationMapper.mapToLocationList(resultSet).stream().findAny();
             }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void setLocationStocks(UUID locationId, List<Stock> stocks) {
+        String updateNameSql = "UPDATE location SET stocks=? WHERE id=?";
+
+        Connection connection = DatabaseConfiguration.getDbConn();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonStocks = objectMapper.writeValueAsString(stocks);
+
+            preparedStatement.setString(1, jsonStocks);
+            preparedStatement.setObject(2, locationId);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -69,17 +98,19 @@ public non-sealed class LocationRepositoryImpl implements LocationRepository {
     @Override
     public void updateObjectById(UUID id, Location newObject) {
 
-        String updateNameSql = "UPDATE location SET name=?, address=?, location_type=?, max_stock_capacity=? WHERE id=?";
+        String updateNameSql = "UPDATE location SET name=?, address=?, type=?, max_stock_capacity=? stocks=? WHERE id=?";
 
         Connection connection = DatabaseConfiguration.getDbConn();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonStocks = objectMapper.writeValueAsString(newObject.getLocationStocks());
             preparedStatement.setString(1, newObject.getName());
             preparedStatement.setString(2, newObject.getAddress());
             preparedStatement.setString(3, newObject.getLocationType().getTypeString());
             preparedStatement.setInt(4, newObject.getMaxStockCapacity());
-            preparedStatement.setString(5, id.toString());
+            preparedStatement.setString(5, jsonStocks);
+            preparedStatement.setString(6, id.toString());
 
             preparedStatement.executeUpdate();
 
@@ -87,6 +118,8 @@ public non-sealed class LocationRepositoryImpl implements LocationRepository {
 
             e.printStackTrace();
 
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -95,16 +128,21 @@ public non-sealed class LocationRepositoryImpl implements LocationRepository {
     public void addNewObject (Location location) {
 
         Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "INSERT INTO location (id, name, address, location_type, max_stock_capacity) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO location (id, name, address, type, max_stock_capacity, stocks) VALUES(?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, location.getId().toString());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonStocks = objectMapper.writeValueAsString(location.getLocationStocks());
+            stmt.setObject(1, location.getId() != null ? location.getId() : UUID.randomUUID());
             stmt.setString(2, location.getName());
             stmt.setString(3, location.getAddress());
             stmt.setString(4, location.getLocationType().toString());
             stmt.setInt(5, location.getMaxStockCapacity());
+            stmt.setString(6, jsonStocks);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
@@ -120,6 +158,8 @@ public non-sealed class LocationRepositoryImpl implements LocationRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
         return List.of();
     }

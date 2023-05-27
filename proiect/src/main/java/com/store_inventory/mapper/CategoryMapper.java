@@ -1,5 +1,7 @@
 package com.store_inventory.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.store_inventory.model.CashTransaction;
 import com.store_inventory.model.Category;
 
 import java.sql.ResultSet;
@@ -18,11 +20,12 @@ public class CategoryMapper {
         return INSTANCE;
     }
     public Optional<Category> mapToCategory(ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
+        if(resultSet.next()) {
             return Optional.of(
                     Category.builder()
-                            .id(UUID.fromString(resultSet.getString("id")))
+                            .id((UUID) resultSet.getObject("id"))
                             .name(resultSet.getString("name"))
+                            .categoryParent((UUID) resultSet.getObject("category_parent"))
                             .build()
             );
         } else {
@@ -34,9 +37,19 @@ public class CategoryMapper {
         List<Category> CategoryList = new ArrayList<>();
 
         while(resultSet.next()){
-            CategoryList.add(mapToCategory(resultSet).get());
+            CategoryList.add(mapToOneCategory(resultSet).get());
         }
 
         return CategoryList;
+    }
+
+    public Optional<Category> mapToOneCategory(ResultSet resultSet) throws SQLException {
+        return Optional.of(
+                Category.builder()
+                        .id((UUID) resultSet.getObject("id"))
+                        .name(resultSet.getString("name"))
+                        .categoryParent((UUID) resultSet.getObject("category_parent"))
+                        .build()
+        );
     }
 }

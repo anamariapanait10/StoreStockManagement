@@ -1,6 +1,12 @@
 package com.store_inventory.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.store_inventory.model.Location;
+import com.store_inventory.model.Stock;
 import com.store_inventory.model.Supplier;
+import com.store_inventory.model.enums.LocationType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,9 +42,19 @@ public class SupplierMapper {
         List<Supplier> SupplierList = new ArrayList<>();
 
         while(resultSet.next()){
-            SupplierList.add(mapToSupplier(resultSet).get());
+            SupplierList.add(mapToOneSupplier(resultSet).get());
         }
 
         return SupplierList;
+    }
+
+    private Optional<Supplier> mapToOneSupplier(ResultSet resultSet) throws SQLException {
+        Supplier obj = Supplier.builder()
+                .supplierName(resultSet.getString("name"))
+                .supplierAddress(resultSet.getString("address"))
+                .contactNumber(resultSet.getString("contact_number"))
+                .build();
+        obj.setId(UUID.fromString(resultSet.getString("id")));
+        return Optional.of(obj);
     }
 }

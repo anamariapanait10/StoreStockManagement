@@ -27,13 +27,13 @@ public non-sealed class CardTransactionRepositoryImpl implements CardTransaction
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setString(1, id.toString());
+            stmt.setObject(1, id);
             ResultSet resultSet = stmt.executeQuery();
             Optional<CardTransaction> cardtransaction = cardtransactionMapper.mapToCardTransaction(resultSet);
 
             if (cardtransaction.isEmpty()) {
                 CsvLogger.getInstance().logAction(LogServiceImpl.getInstance().logIntoCsv(Level.SEVERE, "Error: No such cardtransaction with id " +id));
-                throw new ObjectNotFoundException("No such cardtransaction with id " + id);
+                return Optional.empty();
             }
             CsvLogger.getInstance().logAction(LogServiceImpl.getInstance().logIntoCsv(Level.INFO, "Get cardtransaction with id " + id + " was done successfully"));
             return cardtransaction;
@@ -64,7 +64,7 @@ public non-sealed class CardTransactionRepositoryImpl implements CardTransaction
         String updateNameSql = "DELETE FROM cardtransaction WHERE id=?";
         Connection connection = DatabaseConfiguration.getDbConn();
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,17 +73,17 @@ public non-sealed class CardTransactionRepositoryImpl implements CardTransaction
     @Override
     public void updateObjectById(UUID id, CardTransaction newObject) {
 
-        String updateNameSql = "UPDATE cardtransaction SET amount=?, card_number=?, expiration_date=?, card_holder_date=? WHERE id=?";
+        String updateNameSql = "UPDATE cardtransaction SET amount=?, card_number=?, card_expiration_date=?, card_holder_name=? WHERE id=?";
 
         Connection connection = DatabaseConfiguration.getDbConn();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
             preparedStatement.setFloat(1, newObject.getAmount());
-            preparedStatement.setString(2, newObject.getCardNumber().toString());
-            preparedStatement.setString(3, newObject.getCardExpirationDate().toString());
+            preparedStatement.setString(2, newObject.getCardNumber());
+            preparedStatement.setObject(3, newObject.getCardExpirationDate());
             preparedStatement.setString(4, newObject.getCardHolderName());
-            preparedStatement.setString(5, id.toString());
+            preparedStatement.setObject(5, id);
 
             preparedStatement.executeUpdate();
 
@@ -96,12 +96,13 @@ public non-sealed class CardTransactionRepositoryImpl implements CardTransaction
     public void addNewObject (CardTransaction cardtransaction) {
 
         Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "INSERT INTO cardtransaction (id, amount, card_number, expiration_date, card_holder_date) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO cardtransaction (id, amount, card_number, card_expiration_date, card_holder_name) VALUES(?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, cardtransaction.getId().toString());
+            stmt.setObject(1, cardtransaction.getId() != null ? cardtransaction.getId() : UUID.randomUUID());
             stmt.setFloat(2, cardtransaction.getAmount());
-            stmt.setString(3, cardtransaction.getCardExpirationDate().toString());
-            stmt.setString(4, cardtransaction.getCardHolderName());
+            stmt.setString(3, cardtransaction.getCardNumber());
+            stmt.setObject(4, cardtransaction.getCardExpirationDate());
+            stmt.setString(5, cardtransaction.getCardHolderName());
             stmt.executeUpdate();
 
         } catch (SQLException e) {

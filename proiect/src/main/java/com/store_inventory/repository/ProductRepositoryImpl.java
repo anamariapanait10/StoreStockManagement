@@ -61,7 +61,7 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
         String updateNameSql = "DELETE FROM product WHERE id=?";
         Connection connection = DatabaseConfiguration.getDbConn();
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,9 +77,9 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
             preparedStatement.setString(1, newObject.getName());
             preparedStatement.setFloat(2, newObject.getPrice());
-            preparedStatement.setString(3, newObject.getCategoryId().toString());
+            preparedStatement.setObject(3, newObject.getCategoryId());
             preparedStatement.setString(4, newObject.getExpirationDate().toString());
-            preparedStatement.setString(5, id.toString());
+            preparedStatement.setObject(5, id);
 
             preparedStatement.executeUpdate();
 
@@ -92,13 +92,15 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
     public void addNewObject (Product product) {
 
         Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "INSERT INTO product (id, name, price, type, expiration_date) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO product (id, name, category_id, price, type, expiration_date, expiration_status) VALUES(?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, product.getId().toString());
+            stmt.setObject(1, product.getId() != null ? product.getId() : UUID.randomUUID());
             stmt.setString(2, product.getName());
-            stmt.setFloat(3, product.getPrice());
-            stmt.setString(4, product.getCategoryId().toString());
-            stmt.setString(5, product.getExpirationDate().toString());
+            stmt.setObject(3, product.getCategoryId());
+            stmt.setFloat(4, product.getPrice());
+            stmt.setString(5, product.getProductType().toString());
+            stmt.setObject(6, product.getExpirationDate());
+            stmt.setString(7, product.getExpirationStatus());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -132,7 +134,7 @@ public non-sealed class ProductRepositoryImpl implements ProductRepository {
         try(Connection connection = DatabaseConfiguration.getDbConn();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement)) {
 
-            preparedStatement.setString(1, categoryId.toString());
+            preparedStatement.setObject(1, categoryId);
 
             return productMapper.mapToProductList(preparedStatement.executeQuery());
         } catch (SQLException e) {

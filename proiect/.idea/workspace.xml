@@ -5,12 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3452ab5-21e0-48de-9544-06fec1b99829" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/EssentialProductMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/dcd0714f-39f6-4c18-a0af-8dce68ac495d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/dcd0714f-39f6-4c18-a0af-8dce68ac495d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/dcd0714f-39f6-4c18-a0af-8dce68ac495d/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/dcd0714f-39f6-4c18-a0af-8dce68ac495d/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/dcd0714f-39f6-4c18-a0af-8dce68ac495d/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/dcd0714f-39f6-4c18-a0af-8dce68ac495d/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/config/DatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/config/DatabaseConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/gateways/Requests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/gateways/Requests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/CardTransactionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/CardTransactionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/CashTransactionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/CashTransactionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/CategoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/CategoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/LocationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/LocationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/OrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/ProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/ProductMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/StockMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/StockMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/SupplierMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/mapper/SupplierMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Stock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/model/Stock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/CardTransactionRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/CardTransactionRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/CashTransactionRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/CashTransactionRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/CategoryRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/CategoryRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/LocationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/LocationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/LocationRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/LocationRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/OrderRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/OrderRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/ProductRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/threads/ProductExpirationThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/threads/ProductExpirationThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/StockRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/StockRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/SupplierRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/repository/SupplierRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/LocationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/LocationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/SupplierServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/TransactionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store_inventory/service/TransactionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/store_inventory/config/DatabaseConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/store_inventory/config/DatabaseConfiguration.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +160,7 @@
       <workItem from="1685124156035" duration="17242000" />
       <workItem from="1685164152596" duration="905000" />
       <workItem from="1685166049970" duration="14408000" />
-      <workItem from="1685181020361" duration="5745000" />
+      <workItem from="1685181020361" duration="30018000" />
     </task>
     <servers />
   </component>
@@ -143,5 +177,29 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/store_inventory/service/TransactionServiceImpl.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/store_inventory/service/LocationServiceImpl.java</url>
+          <line>95</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/store_inventory/application/Menu.java</url>
+          <line>160</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

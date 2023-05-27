@@ -4,14 +4,17 @@ import com.store_inventory.exceptions.LocationNotFound;
 import com.store_inventory.exceptions.StockNotFound;
 import com.store_inventory.model.*;
 import com.store_inventory.model.enums.LocationType;
+import com.store_inventory.repository.LocationRepository;
+import com.store_inventory.repository.LocationRepositoryImpl;
 
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public final class LocationServiceImpl implements LocationService {
-    private static List<Location> locationList = new ArrayList<>();
 
+    private static final LocationRepository locationRepository = new LocationRepositoryImpl();
     private static ProductService productService;
 
 
@@ -20,17 +23,17 @@ public final class LocationServiceImpl implements LocationService {
     }
     @Override
     public List<Location> getAllLocations() {
-        return locationList;
+        return locationRepository.getAll();
     }
 
     @Override
     public Optional<Location> getLocationById(UUID id) {
-        return locationList.stream().filter(l -> l.getId() == id).findAny();
+        return locationRepository.getAll().stream().filter(l -> Objects.equals(id, l.getId())).findAny();
     }
 
     @Override
     public Optional<Location> getLocationByName(String locationName) throws LocationNotFound {
-        Optional<Location> loc = locationList.stream().filter(l -> Objects.equals(l.getName(), locationName)).findAny();
+        Optional<Location> loc = locationRepository.getAll().stream().filter(l -> Objects.equals(l.getName(), locationName)).findAny();
         if (!loc.isPresent()){
             throw new LocationNotFound();
         }
@@ -39,12 +42,16 @@ public final class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> getLocationsByType(LocationType lt) {
-        return locationList.stream().filter(l -> l.getLocationType() == lt).collect(Collectors.toList());
+        return locationRepository.getAll().stream().filter(l -> Objects.equals(l.getLocationType(), lt)).collect(Collectors.toList());
     }
 
     @Override
     public void addLocation(Location l) {
-        locationList.add(l);
+        try {
+            locationRepository.addNewObject(l);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -55,14 +62,19 @@ public final class LocationServiceImpl implements LocationService {
 
     @Override
     public void removeLocationById(UUID id) {
-        locationList.removeIf(l -> l.getId() == id);
+        locationRepository.deleteObjectById(id);
     }
 
     @Override
     public void addStocksToLocation(UUID locationId, Stock s) {
         Optional<Location> l = this.getLocationById(locationId);
         if(l.isPresent()) {
+            if (l.get().getLocationStocks() == null){
+                l.get().setLocationStocks(new ArrayList<>());
+            }
             l.get().addStock(s);
+
+            locationRepository.setLocationStocks(locationId, l.get().getLocationStocks());
         } else {
             System.out.println("Location with id " + locationId + " not found");
         }
@@ -81,7 +93,7 @@ public final class LocationServiceImpl implements LocationService {
     public Optional<Stock> getStockFromLocation(UUID locationId, UUID stockId) throws StockNotFound{
         Optional<Location> l = this.getLocationById(locationId);
         if(l.isPresent()) {
-            Optional<Stock> stock = l.get().getLocationStocks().stream().filter(s -> s.getId() == stockId).findAny();
+            Optional<Stock> stock = l.get().getLocationStocks().stream().filter(s -> Objects.equals(s.getId(), stockId)).findAny();
             if(!stock.isPresent()){
                 throw new StockNotFound();
             }
@@ -93,11 +105,12 @@ public final class LocationServiceImpl implements LocationService {
     }
 
     public void printAllStocks(){
-        for(Location l: locationList) {
+        for(Location l: locationRepository.getAll()) {
             System.out.println("Location " + l.getName() + "(" + l.getLocationType() + "):");
-            for(Stock s: l.getLocationStocks()){
-                System.out.println("-> " + productService.getProductById(s.getProductId()).get().getName() + ": " + s.getProductQuantity());
-            }
+            if (l.getLocationStocks() != null)
+                for(Stock s: l.getLocationStocks()){
+                    System.out.println("-> " + productService.getProductById(s.getProductId()).get().getName() + ": " + s.getProductQuantity());
+                }
         }
     }
 

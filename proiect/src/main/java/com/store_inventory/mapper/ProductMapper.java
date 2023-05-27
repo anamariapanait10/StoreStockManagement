@@ -35,11 +35,23 @@ public class ProductMapper {
         }
     }
 
+    private Optional<Product> mapToOneProduct(ResultSet resultSet) throws SQLException {
+        Product obj = Product.builder()
+                .name(resultSet.getString("name"))
+                .price(resultSet.getFloat("price"))
+                .productType(ProductType.valueOf(resultSet.getString("type")))
+                .categoryId(UUID.fromString(resultSet.getString("category_id")))
+                .expirationStatus(resultSet.getString("expiration_status"))
+                .build();
+        obj.setId(UUID.fromString(resultSet.getString("id")));
+        return Optional.of(obj);
+    }
+
     public List<Product> mapToProductList(ResultSet resultSet) throws SQLException {
         List<Product> ProductList = new ArrayList<>();
 
         while(resultSet.next()){
-            ProductList.add(mapToProduct(resultSet).get());
+            ProductList.add(mapToOneProduct(resultSet).get());
         }
 
         return ProductList;

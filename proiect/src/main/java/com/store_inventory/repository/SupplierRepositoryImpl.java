@@ -1,5 +1,6 @@
 package com.store_inventory.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.store_inventory.application.csv.CsvLogger;
 import com.store_inventory.config.DatabaseConfiguration;
 import com.store_inventory.exceptions.ObjectNotFoundException;
@@ -23,7 +24,7 @@ public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setString(1, id.toString());
+            stmt.setObject(1, id);
             ResultSet resultSet = stmt.executeQuery();
             Optional<Supplier> supplier = supplierMapper.mapToSupplier(resultSet);
 
@@ -50,6 +51,8 @@ public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
             if (resultSet.next()) {
                 return supplierMapper.mapToSupplierList(resultSet).stream().findAny();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return Optional.empty();
     }
@@ -60,7 +63,7 @@ public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
         String updateNameSql = "DELETE FROM supplier WHERE id=?";
         Connection connection = DatabaseConfiguration.getDbConn();
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,7 +81,7 @@ public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
             preparedStatement.setString(1, newObject.getSupplierName());
             preparedStatement.setString(2, newObject.getSupplierAddress());
             preparedStatement.setString(3, newObject.getContactNumber());
-            preparedStatement.setString(4, id.toString());
+            preparedStatement.setObject(4, id);
 
             preparedStatement.executeUpdate();
 
@@ -92,7 +95,7 @@ public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
         Connection connection = DatabaseConfiguration.getDbConn();
         String query = "INSERT INTO supplier (id, name, address, contact_number) VALUES(?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, supplier.getId().toString());
+            stmt.setObject(1, supplier.getId() != null ? supplier.getId() : UUID.randomUUID());
             stmt.setString(2, supplier.getSupplierName());
             stmt.setString(3, supplier.getSupplierAddress());
             stmt.setString(4, supplier.getContactNumber());
@@ -115,6 +118,7 @@ public non-sealed class SupplierRepositoryImpl implements SupplierRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return List.of();
     }
     @Override

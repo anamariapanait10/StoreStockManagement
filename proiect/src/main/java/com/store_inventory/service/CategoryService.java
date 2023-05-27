@@ -19,4 +19,6 @@ public sealed interface CategoryService permits CategoryServiceImpl {
 
     void printAllCategories();
 
+    Optional<Category> getCatgoryWithLogestName();
+
 }

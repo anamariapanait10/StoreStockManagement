@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public sealed interface SupplierService permits SupplierServiceImpl{
-    Map<UUID, Supplier> getAllSuppliers();
+    List<Supplier> getAllSuppliers();
     Optional<Supplier> getSupplierById(UUID id);
 
     Optional<Supplier> getSupplierByName(String supplierName);

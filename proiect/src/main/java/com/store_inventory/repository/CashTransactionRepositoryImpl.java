@@ -27,7 +27,7 @@ public non-sealed class CashTransactionRepositoryImpl implements CashTransaction
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setString(1, id.toString());
+            stmt.setObject(1, id);
             ResultSet resultSet = stmt.executeQuery();
             Optional<CashTransaction> cashtransaction = cashtransactionMapper.mapToCashTransaction(resultSet);
 
@@ -46,7 +46,7 @@ public non-sealed class CashTransactionRepositoryImpl implements CashTransaction
         String updateNameSql = "DELETE FROM cashtransaction WHERE id=?";
         Connection connection = DatabaseConfiguration.getDbConn();
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +62,7 @@ public non-sealed class CashTransactionRepositoryImpl implements CashTransaction
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
             preparedStatement.setFloat(1, newObject.getAmount());
-            preparedStatement.setString(2, id.toString());
+            preparedStatement.setObject(2, id);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -74,9 +74,9 @@ public non-sealed class CashTransactionRepositoryImpl implements CashTransaction
     public void addNewObject (CashTransaction cashtransaction) {
 
         Connection connection = DatabaseConfiguration.getDbConn();
-        String query = "INSERT INTO cashtransaction (id, amount) VALUES(?, ?, ?)";
+        String query = "INSERT INTO cashtransaction (id, amount) VALUES(?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, cashtransaction.getId().toString());
+            stmt.setObject(1, cashtransaction.getId() != null ? cashtransaction.getId() : UUID.randomUUID());
             stmt.setFloat(2, cashtransaction.getAmount());
             stmt.executeUpdate();
 

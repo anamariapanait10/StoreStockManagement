@@ -23,7 +23,7 @@ public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setString(1, id.toString());
+            stmt.setObject(1, id);
             ResultSet resultSet = stmt.executeQuery();
             Optional<Category> category = categoryMapper.mapToCategory(resultSet);
 
@@ -47,11 +47,8 @@ public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
             stmt.setString(1, name);
             ResultSet resultSet = stmt.executeQuery();
 
-            if (resultSet.next()) {
-                return categoryMapper.mapToCategoryList(resultSet).stream().findAny();
-            }
+            return categoryMapper.mapToCategoryList(resultSet).stream().findAny();
         }
-        return Optional.empty();
     }
 
     @Override
@@ -60,7 +57,7 @@ public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
         String updateNameSql = "DELETE FROM category WHERE id=?";
         Connection connection = DatabaseConfiguration.getDbConn();
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,8 +73,8 @@ public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
             preparedStatement.setString(1, newObject.getName());
-            preparedStatement.setString(2, newObject.getCategoryParent().toString());
-            preparedStatement.setString(3, id.toString());
+            preparedStatement.setObject(2, newObject.getCategoryParent());
+            preparedStatement.setObject(3, id);
 
             preparedStatement.executeUpdate();
 
@@ -92,9 +89,14 @@ public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
         Connection connection = DatabaseConfiguration.getDbConn();
         String query = "INSERT INTO category (id, name, category_parent) VALUES(?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, category.getId().toString());
+            stmt.setObject(1, category.getId() != null ? category.getId() : UUID.randomUUID());
             stmt.setString(2, category.getName());
-            stmt.setString(3, category.getCategoryParent().toString());
+            if (category.getCategoryParent() != null) {
+                stmt.setObject(3, category.getCategoryParent());
+            } else {
+                stmt.setObject(3, null);
+            }
+
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -120,4 +122,5 @@ public non-sealed class CategoryRepositoryImpl implements CategoryRepository {
     public void addAllFromGivenList(List<Category> categoryList) {
         categoryList.forEach(this::addNewObject);
     }
+
 }

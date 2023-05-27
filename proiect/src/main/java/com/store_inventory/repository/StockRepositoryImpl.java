@@ -27,7 +27,7 @@ public non-sealed class StockRepositoryImpl implements StockRepository{
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setString(1, id.toString());
+            stmt.setObject(1, id);
             ResultSet resultSet = stmt.executeQuery();
             Optional<Stock> stock = stockMapper.mapToStock(resultSet);
 
@@ -46,7 +46,7 @@ public non-sealed class StockRepositoryImpl implements StockRepository{
         String updateNameSql = "DELETE FROM stock WHERE id=?";
         Connection connection = DatabaseConfiguration.getDbConn();
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,9 +61,9 @@ public non-sealed class StockRepositoryImpl implements StockRepository{
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateNameSql)) {
 
-            preparedStatement.setString(1, newObject.getProductId().toString());
+            preparedStatement.setObject(1, newObject.getProductId());
             preparedStatement.setInt(2, newObject.getProductQuantity());
-            preparedStatement.setString(3, id.toString());
+            preparedStatement.setObject(3, id);
 
             preparedStatement.executeUpdate();
 
@@ -77,8 +77,8 @@ public non-sealed class StockRepositoryImpl implements StockRepository{
         Connection connection = DatabaseConfiguration.getDbConn();
         String query = "INSERT INTO stock (id, product_id, quantity) VALUES(?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, stock.getId().toString());
-            stmt.setString(2, stock.getProductId().toString());
+            stmt.setObject(1, stock.getId() != null ? stock.getId() : UUID.randomUUID());
+            stmt.setObject(2, stock.getProductId());
             stmt.setInt(3, stock.getProductQuantity());
             stmt.executeUpdate();
 

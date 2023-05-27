@@ -1,30 +1,31 @@
 package com.store_inventory.service;
 
-import com.store_inventory.exceptions.CategoryNotFound;
 import com.store_inventory.exceptions.SupplierNotFound;
 import com.store_inventory.model.*;
-import com.store_inventory.service.SupplierService;
+import com.store_inventory.repository.SupplierRepository;
+import com.store_inventory.repository.SupplierRepositoryImpl;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public final class SupplierServiceImpl implements SupplierService {
 
-    private static Map<UUID, Supplier> supplierMap = new HashMap<>();
+    private static final SupplierRepository supplierRepository = new SupplierRepositoryImpl();
 
     @Override
-    public Map<UUID, Supplier> getAllSuppliers() {
-        return supplierMap;
+    public List<Supplier> getAllSuppliers() {
+        return supplierRepository.getAll();
     }
 
     @Override
     public Optional<Supplier> getSupplierById(UUID id) {
-        return supplierMap.values().stream().filter(s -> s.getId() == id).findAny();
+        return supplierRepository.getAll().stream().filter(s -> Objects.equals(s.getId(), id)).findAny();
     }
 
     @Override
     public Optional<Supplier> getSupplierByName(String supplierName) throws SupplierNotFound {
-        Optional<Supplier> sup = supplierMap.values().stream().filter(s -> Objects.equals(s.getSupplierName(), supplierName)).findAny();
+        Optional<Supplier> sup = supplierRepository.getAll().stream().filter(s -> Objects.equals(s.getSupplierName(), supplierName)).findAny();
         if (!sup.isPresent()){
             throw new SupplierNotFound();
         }
@@ -33,7 +34,11 @@ public final class SupplierServiceImpl implements SupplierService {
 
     @Override
     public void addSupplier(Supplier s) {
-        supplierMap.put(s.getId(), s);
+        try {
+            supplierRepository.addNewObject(s);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -44,11 +49,11 @@ public final class SupplierServiceImpl implements SupplierService {
 
     @Override
     public void removeSupplierById(UUID id) {
-        supplierMap = supplierMap.entrySet().stream().filter(c -> !id.equals(c.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        supplierRepository.deleteObjectById(id);
     }
 
     public void printAllSuppliers(){
-        for(Supplier s: supplierMap.values()) {
+        for(Supplier s: supplierRepository.getAll()) {
             System.out.println("Supplier " + s.getSupplierName());
         }
     }
