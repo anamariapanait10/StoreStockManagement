@@ -5,10 +5,10 @@ import com.store_inventory.model.enums.ProductType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
 public class ProductMapper {
     private static final ProductMapper INSTANCE = new ProductMapper();
 
@@ -27,6 +27,7 @@ public class ProductMapper {
                     .price(resultSet.getFloat("price"))
                     .productType(ProductType.valueOf(resultSet.getString("type")))
                     .categoryId(UUID.fromString(resultSet.getString("category_id")))
+                    .expirationDate(LocalDate.parse(resultSet.getString("expiration_date"), DateTimeFormatter.ISO_DATE))
                     .build();
             obj.setId(UUID.fromString(resultSet.getString("id")));
             return Optional.of(obj);
@@ -42,6 +43,7 @@ public class ProductMapper {
                 .productType(ProductType.valueOf(resultSet.getString("type")))
                 .categoryId(UUID.fromString(resultSet.getString("category_id")))
                 .expirationStatus(resultSet.getString("expiration_status"))
+                .expirationDate(LocalDate.parse(resultSet.getString("expiration_date"), DateTimeFormatter.ISO_DATE))
                 .build();
         obj.setId(UUID.fromString(resultSet.getString("id")));
         return Optional.of(obj);

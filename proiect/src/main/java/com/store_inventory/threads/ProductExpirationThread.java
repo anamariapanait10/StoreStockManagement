@@ -13,12 +13,23 @@ public class ProductExpirationThread implements Runnable {
 
     @Override
     public void run(){
-        for(int i = 0; i < products.size(); i++){
-            if(products.get(i).getExpirationDate().isBefore(LocalDate.now())){
-                products.get(i).setExpirationStatus("Expired");
-            } else {
-                products.get(i).setExpirationStatus("Not expired");
+        for (int step = 0; step < 5; step++){
+            for(int i = 0; i < products.size(); i++){
+                if(products.get(i).getExpirationDate().isBefore(LocalDate.now())){
+                    products.get(i).setExpirationStatus("Expired");
+                    System.out.println("Product " + products.get(i).getName() + " was set as expired.");
+                } else {
+                    products.get(i).setExpirationStatus("Not expired");
+                    System.out.println("Product " + products.get(i).getName() + " was set as not expired.");
+                }
+            }
+            System.out.println();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
+
     }
 }

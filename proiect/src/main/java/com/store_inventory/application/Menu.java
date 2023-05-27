@@ -4,6 +4,7 @@ import com.store_inventory.exceptions.CategoryNotFound;
 import com.store_inventory.exceptions.LocationNotFound;
 import com.store_inventory.exceptions.ProductNotFound;
 import com.store_inventory.exceptions.StockNotFound;
+import com.store_inventory.gateways.Requests;
 import com.store_inventory.model.*;
 import com.store_inventory.model.abstracts.Transaction;
 import com.store_inventory.model.enums.LocationType;
@@ -28,6 +29,7 @@ public class Menu {
     private final SupplierService supplierService = new SupplierServiceImpl();
     private final TransactionService transactionService = new TransactionServiceImpl();
     private final OrderService orderService = new OrderServiceImpl(locationService, supplierService, transactionService);
+    private final Requests requests = new Requests();
 
     public static Menu getInstance() {
         return (INSTANCE == null ? new Menu() : INSTANCE);
@@ -309,6 +311,10 @@ public class Menu {
         } catch (InterruptedException e) {
             LogServiceImpl.getInstance().log(Level.SEVERE, e.getMessage());
         }
+    }
+
+    public void demoOnGateway() {
+        requests.saveRequestInfo();
     }
 
     public void demoOnIterator() {
