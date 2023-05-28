@@ -68,7 +68,7 @@ public class Menu {
                     put("Color", "Red");
                     put("Tara de origine", "Romania");
                 }}).build();
-        System.out.println(p1);
+
         productService.addProduct(p1);
 
         productService.addProduct(Product.builder().id(UUID.randomUUID()).name("Pear").categoryId(fructeId).expirationDate(LocalDate.now().plusDays(2))
@@ -177,7 +177,7 @@ public class Menu {
             return;
         }
         System.out.println("Emag has potatoes in stock:");
-        System.out.println(s.get().getProductId() + ": " + s.get().getProductQuantity());
+        System.out.println(productService.getProductById(s.get().getProductId()).get().getName() + ": " + s.get().getProductQuantity());
     }
 
     public void showSuppliers(){

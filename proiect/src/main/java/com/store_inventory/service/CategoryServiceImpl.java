@@ -43,7 +43,7 @@ public final class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> filterByParentCategoryName(String parentCategoryName) {
-        return categoryRepository.getAll().stream().filter(c -> c.getCategoryParent() != null && getCategoryById(c.getCategoryParent()).get().getName() == parentCategoryName).toList();
+        return categoryRepository.getAll().stream().filter(c -> c.getCategoryParent() != null && getCategoryById(c.getCategoryParent()).get().getName().equals(parentCategoryName)).toList();
 
     }
 
@@ -81,8 +81,6 @@ public final class CategoryServiceImpl implements CategoryService {
                 for (Category subcat: filterByParentCategoryName(c.getName())) {
                     System.out.println("-> " + subcat.getName());
                 }
-            } else {
-                break;
             }
         }
     }
